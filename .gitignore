@@ -1,0 +1,10 @@
+# Secrets — never commit
+**/.env
+!**/.env.example
+*.rtf
+.DS_Store
+# Build/runtime
+node_modules/
+sfdx/.sf/
+sfdx/.sfdx/
+web/dist/
