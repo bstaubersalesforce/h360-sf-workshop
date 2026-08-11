@@ -1,0 +1,11 @@
+{
+  "mode": "workshop",
+  "duration": "2-day",
+  "partner_overlay": "reference",
+  "tracks": {
+    "commercial": { "room": "joint", "format": "presenter-led", "day": 2 },
+    "technical": { "room": "tech", "format": "guided-classroom", "day": 1, "hands_on_build": "reference-skill-in-conversation", "hxl": "conditional-build-or-vision-demo" }
+  },
+  "personas_required_per_partner": ["commercial", "technical"],
+  "surfaces": { "slack": true, "agentforce_side_panel": true, "agent_api": true, "hxl_render_everywhere": "vision-demo", "mobile": false }
+}

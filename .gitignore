@@ -1,10 +1,26 @@
-# Secrets — never commit
+.notes/
+.superpowers/
+**/__pycache__/
+*.pyc
+.DS_Store
+
+# Local org-test secrets — Consumer Key/Secret, tokens. Never commit.
+docs/H360-Workshop-Org_Test.rtf
+*-Org_Test.rtf
+*.secrets
+# env files — hold live tokens/keys for the web sample
 **/.env
 !**/.env.example
-*.rtf
-.DS_Store
-# Build/runtime
-node_modules/
-sfdx/.sf/
-sfdx/.sfdx/
-web/dist/
+
+# node deps for the web sample
+web/node_modules/
+
+# Salesforce CLI local state/cache — never commit
+**/.sf/
+**/.sfdx/
+
+
+# UIBundle React build artifacts (2026-08-07 spike + any future uiBundles)
+sfdx/force-app/main/default/uiBundles/**/node_modules/
+sfdx/force-app/main/default/uiBundles/**/dist/
+sfdx/force-app/main/default/uiBundles/**/build/

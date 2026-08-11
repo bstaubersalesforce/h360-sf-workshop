@@ -1,0 +1,8 @@
+# The compiled agent runtime (Bot + GenAiPlannerBundle) is a BUILD OUTPUT of the
+# `agent publish authoring-bundle` command — the .agent authoring bundle is the source
+# of truth. Ignoring these keeps the publish command (which uses source-tracking) from
+# pulling the compiled graph back into source, which would re-introduce the T11
+# Bot / AiAuthoringBundle DeveloperName collision on a clean deploy.
+# Reference copy of the compiled graph: reference/compiled-agent-runtime/.
+**/bots/**
+**/genAiPlannerBundles/**
