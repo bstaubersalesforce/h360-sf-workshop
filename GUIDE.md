@@ -170,7 +170,7 @@ Employee Agent + an Apex `@InvocableMethod` Skill over `Order__c` + its in-conve
    commands below are **what the script runs under the hood / how to do it by hand**. The agent ships as an **Agent Script
    bundle**, not UI-authored (`agentforce-adlc`): `sf project deploy start --metadata AiAuthoringBundle:Headless360_Order_Assistant`
    → `sf agent publish authoring-bundle --api-name Headless360_Order_Assistant` → `sf agent activate …`. **The compiled
-   Bot + planner are NOT in source** — `publish` generates them (KNOWN-GAPS T11); a `.forceignore` keeps them out. Agent type =
+   Bot + planner are NOT in source** — `publish` generates them; a `.forceignore` keeps them out. Agent type =
    **Employee** (`AgentforceEmployeeAgent`) — required for Slack + CLT + Agent API; no `default_agent_user`.
    🔴 **This is the one ordering gate:** everything downstream (Slack, React/Agent-API, the CLT render) needs the agent
    **published + activated**, not just deployed. The Agent API errors against an unpublished/inactive agent.
@@ -324,7 +324,7 @@ agent query returned in Module 2 — one capability, another surface. Empty/401 
 misconfigured; 400 "Invalid user ID" → `bypassUser` wrong for an Employee agent.
 
 🔴 **`startSession 412` — FIX CONFIRMED: assign the agent-access permission to the Run-As / agent user.**
-**Field-verified 2026-07-31 (Mira):** the 412 on `POST /agents/{id}/sessions` cleared once the **Run-As user was granted
+**Field-verified 2026-07-31:** the 412 on `POST /agents/{id}/sessions` cleared once the **Run-As user was granted
 the agent's access permission set** — i.e. it *was* a permission problem, resolved by giving the agent user access to the
 agent. **Fix first:** assign the **agent-access permset** to the Run-As user (an employee agent is invisible to a user
 who doesn't hold agent access), confirm the agent is **published + activated**, and re-test. *(This supersedes an earlier
@@ -376,7 +376,7 @@ Flows via a hosted MCP server, reach it from a surface — Slack, CLI, Web-React
 **Why no bridge / no Ngrok:** the ChatGPT connector runs **server-to-server (OpenAI cloud → `api.salesforce.com`)**; only
 the OAuth login redirect touches the browser. So a constrained presenter network (e.g. CloudFlare blocking Slack) does
 **not** affect this path, and no tunnel is needed. *(A local MCP bridge over Ngrok is the fallback only if the direct
-OAuth handshake fails — see the research note.)*
+OAuth handshake fails.)*
 
 1. **Pre-flight (do the day before — not live):**
    - ChatGPT account is **Plus / Pro / Business / Enterprise / Education** (developer mode is **not** on Free). Prefer a
@@ -442,10 +442,9 @@ versions, and the CLT all made it in) — so the path is real; here's the shape 
 2. **Deliver the org config as a post-install Skill** (the PIE `partner-package-post-install` / `sf-package-post-install`
    pattern) — package the capability, wire the creds + agent activation after install. This is the
    software-plus-services motion.
-3. **Generate the package** — `sf package create` → `sf package version create` (see the copy-paste commands + the
-   Dev Hub enablement steps in the packaging doc).
+3. **Generate the package** — `sf package create` → `sf package version create` (both require a Dev Hub enabled first).
 
-📦 See the packaging doc for the full framework, per-component packageability table, dry-run results, and quick-reference commands.
+📦 That three-bucket split + these two commands are the whole shape: package the capability, deliver the org config as a post-install Skill, activate the agent per org.
 
 ---
 
