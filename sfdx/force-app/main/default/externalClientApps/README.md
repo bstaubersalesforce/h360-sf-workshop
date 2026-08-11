@@ -2,7 +2,7 @@
 
 **What this is:** the External Client App metadata for the two Headless 360 OAuth clients —
 `Headless360_MCP_Client` (Claude / Hosted-MCP) and `Headless360_Agent_API` (React sample client) — retrieved
-from a validated org.
+from a validated workshop org on **2026-08-06**.
 
 ## Why it matters (the Option-1 finding, 2026-08-06)
 
@@ -27,15 +27,15 @@ the two hard bits — **is deployable metadata**:
 | `extlClntAppOauthSettings/` | `ExtlClntAppOauthSettings` | the OAuth **scopes** (`RefreshToken, MCP`) |
 | `extlClntAppOauthPolicies/` | `ExtlClntAppOauthConfigurablePolicies` | IP relaxation, RT validity, session level |
 
-## ✅ Cross-org deploy — PROVEN
+## ✅ Cross-org deploy — PROVEN (2026-08-06)
 
-Deployed this bundle into a **second, different-lineage org**. Result: **4/4 components `created: True`**, and a
-retrieve-back confirmed everything portable:
+Deployed this bundle into a **second, different-lineage org** (a Health Cloud dev-ed, a different
+org template). Result: **4/4 components `created: True`**, and a retrieve-back confirmed everything portable:
 
 - ✅ `isNamedUserJwtEnabled=true` **survived** — the JWT toggle deploys as metadata (no more manual checkbox)
 - ✅ `isPkceRequired=true`, `isConsumerSecretOptional=true`, scope `RefreshToken, MCP` — all intact
-- ✅ **fresh consumer key auto-minted** per org (differs from the source key) — no key leakage
-- ✅ `orgScopedExternalApp` **auto-re-resolved** to the new org's ID — no manual edit needed
+- ✅ **fresh consumer key auto-minted** per org (the target org mints its own key ≠ the source key) — no key leakage
+- ✅ `orgScopedExternalApp` **auto-re-resolved** to the new org's ID (`00D…:…`) — no manual edit needed
 
 ### The one portability fix (already applied to these files)
 The **`ExtlClntAppOauthSettings` must NOT carry `<oauthLink>`** — it's an org-scoped, platform-generated ID
@@ -44,7 +44,7 @@ link … doesn't have distribution state PACKAGED."* **Stripping `<oauthLink>` f
 link per org). The `consumerKey` is likewise stripped from `*_glbloauth` (each org mints its own). Both strips are
 baked into the committed files here — retrieve-then-deploy is clean as-is.
 
-### Bulk provisioning path (many orgs)
+### Bulk provisioning path (the ~20–30 summit orgs)
 ```
 sf project deploy start \
   -d force-app/main/default/externalClientApps \
