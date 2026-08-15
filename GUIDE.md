@@ -362,6 +362,23 @@ API + Agentforce agent use (see the cookbook §B license caveat). **Verify:** th
 agent query returned in Module 2 — one capability, another surface. Empty/401 response → token expired or Run-As
 misconfigured; 400 "Invalid user ID" → `bypassUser` wrong for an Employee agent.
 
+### Module 4b — the SAME Skill as a native IN-ORG React app (Multi-Framework) 🟡
+
+**The Multi-Framework headline:** the same capability rendered by a **native React app running *on* the platform** —
+its own **`salesforce.app`** origin, **GraphQL Data SDK**, no external proxy or token juggling. The kit ships it as the
+**`Headless360_OrderStatus` UI Bundle**. It's a **subsequent deploy step** — deliberately *not* in the base onboarding
+(`02-deploy.sh`) because it needs an `npm` build and pulls a large `node_modules` (which is `.forceignore`d so the
+scoped deploy stays clean):
+
+```bash
+./scripts/07-deploy-react-bundle.sh --org <alias>     # npm install + build + deploy the UI Bundle
+```
+
+Then open it per [`uiBundles/Headless360_OrderStatus/README.md`](./sfdx/force-app/main/default/uiBundles/Headless360_OrderStatus/README.md)
+(App Launcher / the bundle's `salesforce.app` origin). Same Skill, now a first-class **on-platform** React surface —
+"build-once, render-anywhere" made concrete *inside* the org, alongside the external `web/` client above.
+*(Build + scoped deploy validated on a clean trial-EE org 2026-08-15; end-to-end rendering is a browser check.)*
+
 🔴 **`startSession 412` — FIX CONFIRMED: assign the agent-access permission to the Run-As / agent user.**
 **Field-verified 2026-07-31:** the 412 on `POST /agents/{id}/sessions` cleared once the **Run-As user was granted
 the agent's access permission set** — i.e. it *was* a permission problem, resolved by giving the agent user access to the

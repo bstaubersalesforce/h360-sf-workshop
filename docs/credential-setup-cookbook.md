@@ -68,9 +68,10 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
        *token format*; **JWT Bearer is an OAuth grant type you do NOT enable for MCP** (per the official guide, Hosted
        MCP supports only **Auth Code + Client Credentials** flows). Enabling JWT *Bearer Flow* here is wrong; enabling
        the JWT *token* toggle is required. Don't conflate them.
-     - **Metadata name (if you deploy the ECA rather than click):** `<isNamedUserJwtEnabled>true</isNamedUserJwtEnabled>`
-       in `ExtlClntAppGlobalOauthSettings` — this is captured in the kit's deployable ECA bundle, so a metadata deploy
-       sets it for you (see the [ECA bundle README](../sfdx/force-app/main/default/externalClientApps/README.md) — the ECA-as-metadata path).
+     - **Metadata name (for reference):** `<isNamedUserJwtEnabled>true</isNamedUserJwtEnabled>` in
+       `ExtlClntAppGlobalOauthSettings`. The workshop path is this **manual card** — the kit's ECA metadata bundle is
+       org-scoped and its committed org Id is a placeholder (see the
+       [ECA bundle README](../sfdx/force-app/main/default/externalClientApps/README.md) for the metadata-path caveats).
      - **Verify before saving. If MCP calls fail `INVALID_JWT_FORMAT` after connecting, this toggle is the first thing
        to check** (fix: turn it on → reconnect Claude with a fresh token).
 3. **Create/Save.** The new-app flow may show only a **"Create"** button (no "Save") — that's the same action.

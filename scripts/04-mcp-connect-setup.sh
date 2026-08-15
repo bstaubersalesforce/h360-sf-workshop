@@ -25,7 +25,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MCP_CALLBACK_URL_WEB="https://claude.ai/api/mcp/auth_callback"
 MCP_CALLBACK_URL_CLI="http://localhost:8765/callback"
 MCP_OAUTH_SCOPES="mcp_api, refresh_token, offline_access"
-MCP_SERVERS="sobject-reads sobject-all salesforce-api-context metadata-experts"
+MCP_SERVERS="headless-360 (Beta) sobject-reads sobject-all salesforce-api-context metadata-experts"
 ECA_LABEL="Headless360 MCP Client"      # suggested label; participants may rename
 PERMSET="Headless360_Workshop_Access"
 
@@ -111,25 +111,18 @@ sf org assign permset --name "$PERMSET" --target-org "$ORG" >/dev/null 2>&1 \
   && pass "permset '$PERMSET' assigned" \
   || warn "permset '$PERMSET' assign failed — deploy the reference build first, then re-run"
 
-# 3) Guided External Client App card (the manual walk / Option-3 fallback).
-#    UPDATE 2026-08-06: the ECA IS deployable metadata — the gated TODO is CLOSED.
-#    The full family (ExternalClientApplication + ExtlClntAppGlobalOauthSettings +
-#    ExtlClntAppOauthSettings + ExtlClntAppOauthConfigurablePolicies) is captured in
-#    sfdx/force-app/main/default/{externalClientApps,extlClntApp*}/ — including the
-#    JWT toggle (isNamedUserJwtEnabled), PKCE, secret-optional, and the MCP scope.
-#    CROSS-ORG deploy PROVEN (deployed into a different-
-#    lineage org: 4/4 created, JWT/PKCE/scope survived, fresh consumer key minted,
-#    org IDs auto-re-resolved). So the FAST PATH (Option 1) is:
-#        sf project deploy start -d force-app/main/default/externalClientApps \
-#          force-app/main/default/extlClntAppGlobalOauthSets \
-#          force-app/main/default/extlClntAppOauthSettings \
-#          force-app/main/default/extlClntAppOauthPolicies --target-org <org>
-#    (Loop over the org list for bulk provisioning.) Portability fix already baked in:
-#    ExtlClntAppOauthSettings has NO <oauthLink> (org-scoped; deploy fails otherwise),
-#    and consumerKey is stripped (each org mints its own). See the ECA README.
-#    STILL MANUAL per org: MCP-server activation (API Catalog — not metadata) + the
-#    consumer SECRET for the Agent-API client-credentials flow + the e2e smoke-test.
-#    This guided card = the Option-3 fallback + the Module-2/3 teaching moment.
+# 3) Guided External Client App card — the WORKSHOP PATH (manual, per org).
+#    The ECA is a per-org Module 3 step: create it from the card below. It is NOT in the base
+#    deploy (02-deploy.sh) because it's org-scoped — <orgScopedExternalApp> needs the TARGET
+#    org's own Id, so it can't be a static committed artifact.
+#    On the metadata-deploy path (externalClientApps/ + extlClntApp*/): it exists and once
+#    deployed cross-org in testing, BUT the committed file carries a SCRUBBED placeholder org Id
+#    (00D-XXXXXXXXXXXXXX) that FAILS validation on a clean org (confirmed 2026-08-15). To use it
+#    you must first set orgScopedExternalApp to a valid Id (or inject the target org's Id per
+#    deploy). For the workshop, use this manual card — it always works. See the ECA README.
+#    STILL MANUAL regardless: MCP-server activation (API Catalog — not metadata) + the consumer
+#    SECRET for the Agent-API client-credentials flow + the e2e smoke-test.
+#    This guided card is also the Module 3 teaching moment.
 cat <<EOF
 
 ──────────────────────────────────────────────────────────────────────────────
