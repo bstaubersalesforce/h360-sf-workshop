@@ -17,15 +17,14 @@ right there. Pairs with [build-and-deploy.md](./build-and-deploy.md) (the surrou
 
 | # | You create | Holds the secret | Powers |
 |---|-----------|------------------|--------|
-| **A** | ECA `Headless360_MCP_Client` | Consumer Key (used by Claude) | **M2 MCP** — Claude reads the org |
-| **B** | ECA `Headless360_Agent_API` | Consumer Key + Secret → a token | **M5 Agent API** — the React web app |
-| **C** | Slack app | Bot token (`xoxb-…`) → pasted into the `Slack_API` credential | **M4 Slack** — the Block Kit card |
+| **A** | ECA `Headless360_MCP_Client` | Consumer Key (used by Claude) | **M3 MCP** — Claude reads the org |
+| **B** | ECA `Headless360_Agent_API` | Consumer Key + Secret → a token | **M4 Agent API** — the React web app |
+| **C** | Slack app | Bot token (`xoxb-…`) → pasted into the `Slack_API` credential | **M5 Slack** — the Block Kit card |
 
 **⚠️ A and B are DIFFERENT apps with DIFFERENT scopes and DIFFERENT OAuth flows. Do not merge them** — the flows
 conflict (one is per-user, one is server-to-server). Two ECAs, always.
 
-> ✅ **Confirmed by the official Salesforce MCP & Agent Orchestration Technical Guide** (Thaxter, 2026-07-28 —
-> [source](./sources/2026-07-28-mcp-and-agent-orchestration-technical-guide.md)): the scope split (`mcp_api`-only for MCP;
+> ✅ **Confirmed by the official Salesforce MCP & Agent Orchestration Technical Guide** (Thaxter, 2026-07-28): the scope split (`mcp_api`-only for MCP;
 > `api`+`chatbot_api`+`sfap_api` for Agent API), the JWT-token toggle, and PKCE-for-Auth-Code are all correct.
 > **Two clarifications from that guide:** (1) **Salesforce-hosted MCP supports ONLY the Auth Code + Client Credentials
 > flows — NOT JWT Bearer Flow**; (2) the **"Issue JWT-based access tokens" toggle is unrelated to JWT Bearer Flow** — it's

@@ -14,6 +14,6 @@ fi
 echo "--- Reminders (see PARTICIPANT-SETUP.md) ---"
 echo "  • Employee Agent built in Agentforce Studio"
 echo "  • MCP servers activated + External Client App (mcp_api, PKCE, JWT tokens)"
-echo "  • Slack workspace connected; Slack app scopes chat:write/channels:read/canvases:write"
+echo "  • Slack workspace connected (optional — on request); Slack app scopes chat:write/channels:read/canvases:write"
 echo "  • Agent (non-'Agentforce (Default)') + External Client App for Agent API"
 exit $FAILED

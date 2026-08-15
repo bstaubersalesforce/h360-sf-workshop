@@ -31,8 +31,8 @@ Prescribed AI tool: **Claude Code** (Agentforce Vibes = documented alternative +
 
 ## Prerequisites
 
-Your workshop org (**OrgFarm template 161**) is pre-configured with: Agentforce + Employee Agent; Hosted MCP + External Client App; a connected Slack 
-workspace; Agent API; Lightning Experience for the in-conversation card. The setup process is documented in 
+Your workshop org (**OrgFarm template 161**) is pre-configured with: Agentforce + Employee Agent; Hosted MCP + External Client App; 
+Agent API; Lightning Experience for the in-conversation card. A **Slack workspace connection is optional — available on request** (some groups opt in; a few shared Slack workspaces are provided). The setup process is documented in 
 **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**.
 
 - **Salesforce CLI** (`sf`) — https://developer.salesforce.com/tools/salesforcecli

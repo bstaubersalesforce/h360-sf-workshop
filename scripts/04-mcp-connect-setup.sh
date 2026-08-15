@@ -133,7 +133,7 @@ sf org assign permset --name "$PERMSET" --target-org "$ORG" >/dev/null 2>&1 \
 cat <<EOF
 
 ──────────────────────────────────────────────────────────────────────────────
- Connect module (M2) — External Client App  ·  org: $ORG
+ Connect module (M3) — External Client App  ·  org: $ORG
 ──────────────────────────────────────────────────────────────────────────────
  First, activate the Hosted MCP servers:
    Setup → Quick Find "MCP Servers" (under API Catalog) → Salesforce Servers →

@@ -78,7 +78,7 @@ Commands below are macOS "easy buttons" (Homebrew / npm / install script); the l
 | **`sf-flex-estimator`** (skill) | — | already available as a Claude Code skill — invoke `/sf-flex-estimator` | `/sf-flex-estimator` runs | M2 (profile action Flex-credit cost) |
 
 - **Org side** isn't a CLI install — your workshop org (**OrgFarm template 161**) ships pre-provisioned
-  (Agentforce + Employee Agent, Hosted MCP + External Client App, Slack connection, Agent API, LEX for the CLT).
+  (Agentforce + Employee Agent, Hosted MCP + External Client App, Agent API, LEX for the CLT; **Slack connection optional — on request**).
 - **Platform capability versions** (API 64.0+ for CLTs, etc.) move release-to-release — re-check them at workshop time.
 
 > **Installing MCP Workbench (not publicly discoverable).** MCP Workbench is a Salesforce Lightning app that tests MCP

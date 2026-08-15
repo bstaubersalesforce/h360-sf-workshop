@@ -4,22 +4,20 @@
 > [credential-setup-cookbook.md](./credential-setup-cookbook.md) for those.** This guide covers the surrounding build.
 
 Attendee-facing, hands-on build/deploy for the Headless 360 reference apps. Assumes a **pre-configured participant
-org** (Agentforce + Hosted MCP + reference build deployed) and — **TBD** — **a Slack workspace per participant (or one
-per group of ≤5)**. Pairs with [GUIDE.md](../GUIDE.md) (module narrative).
+org** (Agentforce + Hosted MCP + reference build deployed). A **Slack workspace connection is optional (on request)** —
+some groups opt in, so expect a few shared workspaces. Pairs with [GUIDE.md](../GUIDE.md) (module narrative).
 
 > **Note on ordering:** this is a **deploy-dependency** guide (Skill/agent foundation first, then surfaces) — it does
 > **not** match the GUIDE's participant *teaching* order (capability-first, reordered 2026-07-29). In the GUIDE the
 > agent+Skill+CLT are **pre-deployed + toured as "The Capability" (Module 2)**; §1/§3/§6 below are that pre-stage. Module
-> tags in the headings are updated to the new numbering. Pairs with the
-[harbour-cruise demo script](./harbour-cruise-demo-script.md) (the guided tour). Validated end-to-end on
-`<your-workshop-org>`.
+> tags in the headings are updated to the new numbering. Validated end-to-end on the reference org.
 
 > **Provisioning status (read first):**
 > - **Participant orgs** — pre-configured by Partner Solutions: reference build deployed, permset assigned, hero
 >   `Order__c` records seeded, MCP servers activatable. You log in and build.
-> - **Slack workspaces — ⏳ TBD.** Plan of record: **one Slack workspace per participant, or one per group of ≤5**
->   (a single workspace caps at 5 connected Salesforce orgs). Use a **standard (non-Enterprise-Grid) workspace** where
->   you're admin — Grid orgs gate custom-app tokens and pre-seed IP allowlists (see M4 gotchas). Final call pending.
+> - **Slack workspaces — optional, on request.** Slack (Module 5) is opt-in; groups that want it get a shared workspace
+>   (a single workspace caps at 5 connected Salesforce orgs, so expect a few). Use a **standard (non-Enterprise-Grid) workspace** where
+>   you're admin — Grid orgs gate custom-app tokens and pre-seed IP allowlists (see the Module 5 gotchas).
 
 ---
 
