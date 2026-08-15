@@ -86,8 +86,8 @@ Commands below are macOS "easy buttons" (Homebrew / npm / install script); the l
 > as Agentforce). It is **not on AppExchange and not publicly listed** — it ships from the repo
 > **[github.com/mvogelgesang/MCP-Workbench](https://github.com/mvogelgesang/MCP-Workbench)**. The `sf-mcp-partner-toolkit`
 > plugin's **`diagnose-connection`** skill installs it for you; to do it by hand:
-> 1. **Get the current package version ID** (`04t…`) from the repo's install instructions (the README).
-> 2. **Install:** `sf package install -p <04t…> -o <org-alias> --wait 5`
+> 1. **Package version ID:** `04tHs000000iSjcIAE` (re-verify current at workshop time — it's a community tool).
+> 2. **Install:** `sf package install -p 04tHs000000iSjcIAE -o <org-alias> --wait 5`  (or browser: `/packaging/installPackage.apexp?p0=04tHs000000iSjcIAE`)
 >    *(Namespaced org where package install fails? Source-deploy instead: `git clone https://github.com/mvogelgesang/MCP-Workbench.git`, then `sf project deploy start --source-dir force-app/main/default -o <org-alias>`.)*
 > 3. **Assign the permset:** `sf org assign permset --name MCP_Workbench -o <org-alias>`
 > 4. **Open it:** `sf org open -o <org-alias> --path "/lightning/n/MCP_Workbench"`
@@ -503,6 +503,41 @@ versions, and the CLT all made it in) — so the path is real; here's the shape 
 3. **Generate the package** — `sf package create` → `sf package version create` (both require a Dev Hub enabled first).
 
 📦 That three-bucket split + these two commands are the whole shape: package the capability, deliver the org config as a post-install Skill, activate the agent per org.
+
+---
+
+## Module 8a — Connect your own External MCP Server 🟡 optional
+
+> **For partners who already run an external MCP server** — fold *your* service into this org's agent as a
+> governed tool (ideation for "our product as an MCP-callable capability"). This is the **inbound/registry**
+> path, distinct from the Salesforce-hosted `headless-360` (Module 3) and the Setup-composed server (Module 3a).
+
+**Directional only — this is optional, and several of us will be in the room to help.** The top-level flow:
+
+1. **Add a Named Principal** to the existing **External Credential** (your external MCP server's auth).
+2. **Grant External Credential Principal Access** on the permission set.
+3. **Install MCP Workbench** (the in-org diagnostic — Postman-for-in-org-MCP-callouts):
+   `sf package install -p 04tHs000000iSjcIAE -o <alias> --wait 5` (or `/packaging/installPackage.apexp?p0=04tHs000000iSjcIAE`).
+   Source: [github.com/mvogelgesang/MCP-Workbench](https://github.com/mvogelgesang/MCP-Workbench).
+4. **Grant the Platform Integration User** — run *after* Workbench is installed. The MCP-5 trap: the agent's
+   runtime callout runs as the PIU, not you, so a Workbench/curl test can pass while the wired agent returns
+   "no data." `sf apex run --file scripts/apex/assign-piu-mcp-permset.apex -o <alias>` *(adapted from the nCino
+   Agentforce workshop, Checkpoint 2p).*
+5. **Register the MCP tools** so the agent can call them: `sf agent mcp create --server-url <your-endpoint>`,
+   then `sf agent mcp list` / `fetch` to confirm.
+
+Grab a facilitator when you're ready to wire this into your POV.
+
+---
+
+## Module 8b — Explore Agentforce Co-Worker 🟡 topic (no build)
+
+> **Topic / discussion beat — no build.** Agentforce **Co-Worker** (GA) is the always-on, employee-facing agent
+> surface, and is **likely already provisioned in your template-161 org** (confirm in Setup → Agentforce).
+
+Nothing to deploy here — this is an **ideation prompt**: try Co-Worker in your org and consider how the Skill you
+forked (Module 7) could surface through it for *your* users. We're keeping it as a topic for now; a hands-on
+Co-Worker build isn't part of this kit yet.
 
 ---
 
