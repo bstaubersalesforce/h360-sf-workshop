@@ -4,7 +4,7 @@
 # Why this exists: the metadata deploy (02) creates the Order__c object but NOT its
 # data. Without these rows the agent answers "No order matches OR-1003" and
 # restart-demo.sh fails its hero-data check. This is the per-org pre-stage step
-# GUIDE Module 3 describes — scripted here so it's one command across ~20 orgs.
+# GUIDE Module 2 describes — scripted here so it's one command across ~20 orgs.
 #
 # Idempotent: upserts on the Order_Number__c external id, so re-running is safe.
 # Requires the Headless360_Workshop_Access permset assigned to the running user

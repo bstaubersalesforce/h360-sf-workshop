@@ -81,11 +81,11 @@ cat <<EOF
   [ ] App Launcher → Orders → the All Orders list view shows 5 rows (OR-1003 = Exception)
   [ ] Agent Builder → 'Headless360 Order Assistant' opens; ask "status of order OR-1003"
         → returns the real record (carrier exception, Approve rebooking)
-  [ ] Module 2/3 — Hosted MCP + ECA (run ./scripts/04-mcp-connect-setup.sh --org $ORG):
+  [ ] Module 3 — Hosted MCP + ECA (run ./scripts/04-mcp-connect-setup.sh --org $ORG):
         [ ] MCP servers activated (Setup → API Catalog → MCP Servers)
         [ ] ECA created with JWT-token toggle ON + PKCE (the INVALID_JWT_FORMAT gotcha)
         [ ] in Claude: "read order OR-1003 from Salesforce" → real data (not just a green dot)
-  [ ] Module 4 (if using Slack) — Slack bot token set on the Slack_API external credential;
+  [ ] Module 5 (if using Slack) — Slack bot token set on the Slack_API external credential;
         SendSlackCardAction posts a Block Kit card for OR-1003
 EOF
 

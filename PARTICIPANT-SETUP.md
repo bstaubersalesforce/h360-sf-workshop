@@ -66,16 +66,16 @@ One command runs every mechanical check and prints the manual (browser) checklis
 **Mechanical (auto):** org reachable · Agentforce enabled · hero data (5 orders) · permset
 assigned · agent deployed · **the real `OrderStatusSkill` returns OR-1003** (Exception /
 "Approve rebooking" + card) — this last one proves the agent's code path works *before* you
-wire MCP, so if it's green the agent will answer once MCP/ECA is set up in Module 2/3.
+wire MCP, so if it's green the agent will answer once MCP/ECA is set up in Module 3.
 
 **Manual (the command prints these to tick in the browser):** the Orders list view, Agent
-Builder response, and the Module 2/3 MCP/ECA + Module 4 Slack steps.
+Builder response, and the Module 3 MCP/ECA + Module 5 Slack steps.
 
 ✅ Green "MECHANICAL: all green" = you're build-ready. Re-run `smoke.sh` anytime.
 
 ---
 
-## After setup — the Module 2/3 build (guided in-room, not scripted)
+## After setup — the Module 3 build (guided in-room, not scripted)
 
 These are the workshop's teaching steps — you'll do them together during the build:
 - **Activate Hosted MCP servers + create the MCP External Client App:**

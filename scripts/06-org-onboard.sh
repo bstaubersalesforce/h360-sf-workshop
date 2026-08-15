@@ -10,7 +10,7 @@
 #   • basic smoke test: 5 hero rows present, bot deployed
 #
 # Idempotent: safe to re-run. Does NOT do the per-org MCP activation / ECA
-# (Module 2/3 — the manual teaching step) or the Slack token (Module 4).
+# (Module 3 — the manual teaching step) or the Slack token (Module 5).
 #
 # Usage: ./scripts/06-org-onboard.sh --org <alias>
 set -uo pipefail
@@ -59,7 +59,7 @@ BOTS="$(sf data query --target-org "$ORG" \
 
 # --- step 4b: invoke the REAL Skill the agent runs (no MCP/ECA needed) ---------
 # This is the highest-value async check: if OrderStatusSkill returns OR-1003
-# correctly here, the agent will work the moment MCP/ECA is wired in Module 2/3.
+# correctly here, the agent will work the moment MCP/ECA is wired in Module 3.
 # Exercises the same WITH USER_MODE path (so it also proves the T12 permset-FLS
 # grant is effective for the running user).
 SKILL_APEX="$(mktemp -t skill_smoke.XXXX.apex)"
@@ -97,7 +97,7 @@ fi
 
 echo "──────────────────────────────────────────────────────────────────────"
 pass "org '$ORG' onboarded: kit deployed, permset assigned, hero data seeded."
-echo "  Next (manual, Module 2/3 teaching steps — not scripted):"
+echo "  Next (manual, Module 3 teaching steps — not scripted):"
 echo "   • Activate Hosted MCP servers + create the MCP ECA:  ./scripts/04-mcp-connect-setup.sh --org $ORG"
 echo "   • Then smoke-test the agent: in Agent Builder / Slack, ask \"status of order OR-1003\""
 echo "──────────────────────────────────────────────────────────────────────"

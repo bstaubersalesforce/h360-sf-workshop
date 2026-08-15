@@ -228,7 +228,7 @@ does not require the agent** (MCP and the agent are parallel paths to the same S
    Setup → MCP Servers → `headless-360`. Also activate: `sobject-reads`,
    `sobject-all`, `salesforce-api-context`, `metadata-experts`.
 2. **Create the External Client App** (Setup → **External Client App Manager** → New). Each setting below prevents a
-   specific failure — do all of them. *(Full click-by-click with every gotcha: [credential-setup-cookbook.md §A](./docs/credential-setup-cookbook.md#a-mcp-external-client-app-module-2).)*
+   specific failure — do all of them. *(Full click-by-click with every gotcha: [credential-setup-cookbook.md §A](./docs/credential-setup-cookbook.md#a-mcp-external-client-app-module-3).)*
    1. **Enable OAuth: ON.**
    2. **Callback URLs — enter BOTH, one per line** (this is the exact-match list the OAuth redirect is checked against):
       - `https://claude.ai/api/mcp/auth_callback`  — claude.ai web / desktop
@@ -330,7 +330,7 @@ JWT rules as Module 3 — if calls fail `INVALID_AUTH_HEADER`, it's the JWT togg
 
 1. Confirm the agent is a **non-"Agentforce (Default)"** type (Employee qualifies) — the Agent API doesn't support Default.
 2. Configure the **Agent API** access (External Client App + OAuth scopes; note the **120-second timeout**).
-   *(Full click-by-click, incl. the PKCE-lock trap + Run-As perms: [credential-setup-cookbook.md §B](./docs/credential-setup-cookbook.md#b-agent-api-external-client-app-module-5).)*
+   *(Full click-by-click, incl. the PKCE-lock trap + Run-As perms: [credential-setup-cookbook.md §B](./docs/credential-setup-cookbook.md#b-agent-api-external-client-app-module-4).)*
    🔴 Use a **SEPARATE ECA from the MCP one** (resolved 2026-07-23): scopes `api`, `chatbot_api`, `sfap_api`,
    `refresh_token`, `offline_access` (**not** `mcp_api`); **client_credentials** flow with a **Run-As user** licensed for
    **both API integration AND Agentforce agent use** (🔴 a bare API-Only integration user may lack agent-use — see the
@@ -381,7 +381,7 @@ different, non-Agent-API surface and can also misbehave.)*
 
 1. **Create + install a Slack app** in your workspace with bot scopes `chat:write`, `channels:read` (+ `chat:write.public`
    to post without inviting the bot to each channel). Copy the **Bot User OAuth Token** (`xoxb-…`).
-   *(Full click-by-click, incl. the `auth.test` pre-check + IP-allowlist gotcha: [credential-setup-cookbook.md §C](./docs/credential-setup-cookbook.md#c-slack-app--bot-token-module-4).)*
+   *(Full click-by-click, incl. the `auth.test` pre-check + IP-allowlist gotcha: [credential-setup-cookbook.md §C](./docs/credential-setup-cookbook.md#c-slack-app--bot-token-module-5).)*
    🔴 **Validate the token FIRST:** `curl -s -H "Authorization: Bearer <xoxb-…>" https://slack.com/api/auth.test` → must
    return `{"ok":true}`. `invalid_auth` = bad token OR a **disallowed source IP** (the app's OAuth&Permissions → "Restrict
    API Token Usage" allowlist vs. your egress IP — clear it; note the *org* callout egresses from Salesforce IPs).

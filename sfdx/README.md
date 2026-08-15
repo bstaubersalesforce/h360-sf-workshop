@@ -36,8 +36,8 @@ Deploy: `../scripts/02-deploy.sh --org <alias>` then `../scripts/03-assign-perms
 3. Publish + activate the agent: `sf agent publish authoring-bundle --api-name Headless360_Order_Assistant` → `sf agent activate --api-name Headless360_Order_Assistant`.
 
 ## Built/configured in the org (not deployable secrets) — GUIDE Modules 2–6
-- **External Client Apps:** the MCP ECA (`mcp_api`) for Module 2, and a **separate** Agent API ECA
-  (`api`/`chatbot_api`/`sfap_api`, client_credentials + Run-As user) for Module 5. Created in Setup; not committed.
-- **Slack bot token** pasted into the `Slack_API` External Credential's `BotToken` principal param (Module 4).
+- **External Client Apps:** the MCP ECA (`mcp_api`) for Module 3, and a **separate** Agent API ECA
+  (`api`/`chatbot_api`/`sfap_api`, client_credentials + Run-As user) for Module 4. Created in Setup; not committed.
+- **Slack bot token** pasted into the `Slack_API` External Credential's `BotToken` principal param (Module 5).
 - The agent's **Topic + action wiring** and Slack connection can be finished in Agentforce Studio; the agent itself is
   the committed `.agent` bundle above (re-deploy + publish rather than re-author).

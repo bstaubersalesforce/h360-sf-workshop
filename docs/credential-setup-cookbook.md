@@ -33,7 +33,7 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
 
 ---
 
-# A. MCP External Client App (Module 2)
+# A. MCP External Client App (Module 3)
 
 **Where:** Setup → **External Client App Manager** → **New External Client App**.
 
@@ -71,7 +71,7 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
        the JWT *token* toggle is required. Don't conflate them.
      - **Metadata name (if you deploy the ECA rather than click):** `<isNamedUserJwtEnabled>true</isNamedUserJwtEnabled>`
        in `ExtlClntAppGlobalOauthSettings` — this is captured in the kit's deployable ECA bundle, so a metadata deploy
-       sets it for you (see [org-provisioning-options.md](./org-provisioning-options.md) — the ECA-as-metadata path).
+       sets it for you (see the [ECA bundle README](../sfdx/force-app/main/default/externalClientApps/README.md) — the ECA-as-metadata path).
      - **Verify before saving. If MCP calls fail `INVALID_JWT_FORMAT` after connecting, this toggle is the first thing
        to check** (fix: turn it on → reconnect Claude with a fresh token).
 3. **Create/Save.** The new-app flow may show only a **"Create"** button (no "Save") — that's the same action.
@@ -90,7 +90,7 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
 
 ---
 
-# B. Agent API External Client App (Module 5)
+# B. Agent API External Client App (Module 4)
 
 **A SEPARATE app from A.** Setup → **External Client App Manager** → **New External Client App**.
 
@@ -149,7 +149,7 @@ Expect `access_token`, `token_type: Bearer`, and `scope: sfap_api chatbot_api ap
 
 ---
 
-# C. Slack app + bot token (Module 4)
+# C. Slack app + bot token (Module 5)
 
 The org side (`Slack_API` Custom External Credential + Named Credential) is **already deployed**. You create the Slack app,
 then paste its bot token into the credential. **It is NOT an OAuth/OIDC Auth Provider** — it's a bearer bot token.
@@ -224,7 +224,7 @@ Then fire a real card (see [build-and-deploy.md](./build-and-deploy.md) §4 for 
 | Slack `not_in_channel` | C (Slack) | `/invite` the bot, or add `chat:write.public` (reinstall for a fresh token). |
 | Record-link button gacks "Looks like there's a problem" | any | Browser logged into a different org — log into the demo org first. |
 
-> **Facilitator tip:** a floating MCP/OAuth specialist during Module 2 + the credential setups saves the room (the
+> **Facilitator tip:** a floating MCP/OAuth specialist during Module 3 + the credential setups saves the room (the
 > data360 lesson). These three setups are the highest-friction ~30 minutes of the day — pre-verify each participant org
 > if you can, and have this cookbook open per table.
 >

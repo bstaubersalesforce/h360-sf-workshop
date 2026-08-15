@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Per-org MCP / Connect (Module 2) setup helper — run ONCE per participant org.
+# Per-org MCP / Connect (Module 3) setup helper — run ONCE per participant org.
 #
 # Automates the deterministic parts of getting an org ready for the Connect module
 # (reachability, edition/LEX sanity, deploy, permset) and gives an exact-values,
@@ -12,7 +12,7 @@
 #   ./scripts/04-mcp-connect-setup.sh --org <alias> --verify   # verify the org is Connect-ready (post-ECA)
 #   ./scripts/04-mcp-connect-setup.sh --org <alias> --no-deploy # skip the metadata deploy (already deployed)
 #
-# See docs/org-shape-and-provisioning.md (§2) and GUIDE.md Module 2 for the why.
+# See PARTICIPANT-SETUP.md and GUIDE.md Module 3 for the why.
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
@@ -54,7 +54,7 @@ EDITION="$(sf org display --target-org "$ORG" --json 2>/dev/null | grep -o '"edi
 case "$EDITION" in
   *Developer*|*Enterprise*|*Partner*) pass "edition supports Agentforce/Einstein (Einstein1AIPlatform-eligible)";;
   "") warn "edition not reported — confirm Developer/Enterprise (Agentforce requires it)";;
-  *) warn "edition '$EDITION' may not support Agentforce — see docs/org-provisioning-options.md";;
+  *) warn "edition '$EDITION' may not support Agentforce — see PARTICIPANT-SETUP.md";;
 esac
 
 # ============================ VERIFY MODE ============================

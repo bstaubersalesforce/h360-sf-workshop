@@ -17,7 +17,7 @@ sf data query -o <alias> -q "SELECT Order_Number__c, Status__c FROM Order__c ORD
 
 ---
 
-### ☐ A. MCP ECA (Module 2)
+### ☐ A. MCP ECA (Module 3)
 Setup → External Client App Manager → `Headless360_MCP_Client` created, then:
 - ☐ both callbacks (`claude.ai/api/mcp/auth_callback` **and** `http://localhost:8765/callback`)
 - ☐ scopes = `mcp_api` ("Access Salesforce hosted MCP Servers") + `refresh_token,offline_access` **only** (no `openid`)
@@ -32,7 +32,7 @@ Setup → External Client App Manager → `Headless360_MCP_Client` created, then
 
 ---
 
-### ☐ B. Agent API ECA (Module 5) — a SEPARATE app
+### ☐ B. Agent API ECA (Module 4) — a SEPARATE app
 Setup → External Client App Manager → `Headless360_Agent_API` created, then:
 - ☐ scopes = `api` + `chatbot_api` + `sfap_api` + `refresh_token,offline_access` (NOT `mcp_api`)
 - ☐ PKCE **off** (Cancel the Confirm-and-Lock dialog *if* it appears/defaults on) · JWT-tokens **on**
@@ -47,7 +47,7 @@ curl -s -X POST "https://<org>.my.salesforce.com/services/oauth2/token" \
 
 ---
 
-### ☐ C. Slack app + bot token (Module 4)
+### ☐ C. Slack app + bot token (Module 5)
 api.slack.com/apps → app created + installed; bot scopes `chat:write`, `channels:read`, `chat:write.public`.
 
 **Verify 1 — token direct (bisector):**
@@ -81,7 +81,7 @@ sf org assign permset --name Headless360_Workshop_Access --target-org <alias>   
 
 ---
 
-### ☐ E. React app (Stop 6 / Module 5)
+### ☐ E. React app (Stop 6 / Module 4)
 ```bash
 cd web && node proxy.mjs &   # terminal 1 :8787   (restart after refreshing the token in .env)
 npm run dev                  # terminal 2 :5173 → "Ask the agent"

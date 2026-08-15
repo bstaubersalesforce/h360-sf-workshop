@@ -11,7 +11,7 @@ if [ -n "$ORG" ]; then
 else
   warn "no org alias (pass --org <alias> or set ORG_ALIAS in .env)"
 fi
-echo "--- Reminders (see docs/org-shape-and-provisioning.md) ---"
+echo "--- Reminders (see PARTICIPANT-SETUP.md) ---"
 echo "  • Employee Agent built in Agentforce Studio"
 echo "  • MCP servers activated + External Client App (mcp_api, PKCE, JWT tokens)"
 echo "  • Slack workspace connected; Slack app scopes chat:write/channels:read/canvases:write"
