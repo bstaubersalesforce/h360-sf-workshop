@@ -1,33 +1,39 @@
 # Participant Org Setup — Headless 360 Workshop
 
-Each participant gets **their own org**. Get it workshop-ready in ~10 minutes with these
-steps. Steps 1–2 are clicks in Setup; step 3 is one CLI command; step 4 is a quick check.
+Each participant self-provisions **their own org** from OrgFarm, then gets it build-ready in
+~10 minutes. Step 1 claims the org (self-serve); step 2 verifies Agentforce; step 3 is one CLI
+command; step 4 is a quick check.
 
 > Prereqs on your laptop (from the pre-work email): **Salesforce CLI (`sf`)**, **Node.js**,
 > **Claude Code**. Clone this repo and `cd` into it before step 3.
 
 ---
 
-## Step 1 — Make the org yours: change the admin email
+## Step 1 — Claim your workshop org (OrgFarm, self-serve)
 
-Your org ships with a placeholder admin email (`noreply@example.com`). Change it to your own
-so you get verification / reset emails.
+You provision your **own** pre-configured org from OrgFarm using the workshop event code — no
+waiting on an assigned login.
 
-1. **Log in** to your org (link provided separately).
-2. Setup → Quick Find **"My Personal Information"** → **Personal Information** → edit **Email**
-   → your work email → **Save**.
-3. **Confirm** the verification email Salesforce sends to that address.
+1. Go to **https://orgfarm.salesforce.com/signup**.
+2. Enter the **workshop event code: `9T6Q7HYZ`** — this dispenses the workshop template
+   (**template 161**), pre-configured for Headless 360.
+3. Complete the signup form. **Use your work email** as the admin email so you receive
+   verification / reset mail, then **confirm** the verification email Salesforce sends.
+4. **Log in** to your new org and note its My Domain URL.
 
-_(This is also the account you'll authenticate the CLI as in step 3.)_
+> The event code is scoped to this workshop and time-boxed — claim your org close to the event
+> and keep it active (OrgFarm/DE-style orgs deprovision after an idle period). This is the
+> account you'll authenticate the CLI as in step 3.
 
-## Step 2 — Turn on Agentforce
+## Step 2 — Verify Agentforce is on
 
-The kit's agent won't deploy until Agentforce is enabled on the org (you'll get a cryptic
-"Not available for deploy" error otherwise).
+Template 161 is pre-configured for the workshop, so Agentforce **should already be enabled**.
+Verify it before you deploy — the kit's agent won't deploy otherwise (you'd get a cryptic "Not
+available for deploy" error).
 
-1. Setup → Quick Find **"Agentforce"** (Agentforce / Einstein Setup) → **turn Agentforce ON**.
-2. **Wait ~1–2 minutes** for it to finish provisioning (the `Bot` / agent metadata materializes
-   asynchronously — if you deploy too fast it won't be ready).
+1. Setup → Quick Find **"Agentforce"** (Agentforce / Einstein Setup) → confirm **Agentforce is ON**.
+2. **If it's off:** turn it on and **wait ~1–2 minutes** for provisioning to finish (the `Bot` /
+   agent metadata materializes asynchronously — if you deploy too fast it won't be ready).
 
 ## Step 3 — Deploy the kit from the CLI
 

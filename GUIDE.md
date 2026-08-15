@@ -33,15 +33,15 @@ for the Dreamforce showcase. That's the reusable skill partners take home.
 
 ## Module 0 — Prereqs & Comprehend
 
-**Goal:** assigned org reachable, tooling installed, repo cloned.
+**Goal:** workshop org claimed & reachable, tooling installed, repo cloned.
 
 > **Participant one-org setup:** if you're getting your own workshop org ready end-to-end, follow
-> **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — (1) change the admin email to yours, (2) turn on
-> Agentforce, (3) `./scripts/06-org-onboard.sh --org <alias>` (deploy + permset + hero data + smoke test),
-> (4) verify. The steps below are the underlying detail.
+> **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — (1) claim your org via OrgFarm (event code
+> `9T6Q7HYZ`, template 161), (2) verify Agentforce is on, (3) `./scripts/06-org-onboard.sh --org <alias>`
+> (deploy + permset + hero data + smoke test), (4) verify. The steps below are the underlying detail.
 
-1. Confirm your **assigned workshop org**.
-   `sf org login web --alias <your-alias>`
+1. Claim your **workshop org** via OrgFarm — [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup),
+   event code **`9T6Q7HYZ`** (template 161) — then `sf org login web --alias <your-alias>`.
 2. Install **Claude Code** + the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins.
    - `agentforce-adlc` — build/preview/test/deploy the agent and its actions.
    - `sf-mcp-partner-toolkit` — scaffold/deploy/diagnose MCP integration (used in Module 3, Connect).
@@ -75,7 +75,7 @@ Commands below are macOS "easy buttons" (Homebrew / npm / install script); the l
 | **`sf agent mcp`** (CLI, **preview**) | ships with `sf` | included in the Salesforce CLI — no extra install | `sf agent mcp list` | M3 (optional CLI-native **retrieval/verify** — `list` / `fetch` advertised tools; complements Workbench, does **not** replace Setup activation or the run-as smoke test) |
 | **`sf-flex-estimator`** (skill) | — | already available as a Claude Code skill — invoke `/sf-flex-estimator` | `/sf-flex-estimator` runs | M2 (profile action Flex-credit cost) |
 
-- **Org side** isn't a CLI install — your assigned workshop org ships pre-provisioned
+- **Org side** isn't a CLI install — your workshop org (**OrgFarm template 161**) ships pre-provisioned
   (Agentforce + Employee Agent, Hosted MCP + External Client App, Slack connection, Agent API, LEX for the CLT).
 - **Platform capability versions** (API 64.0+ for CLTs, etc.) move release-to-release — re-check them at workshop time.
 
@@ -90,7 +90,7 @@ Commands below are macOS "easy buttons" (Homebrew / npm / install script); the l
 > 3. **Assign the permset:** `sf org assign permset --name MCP_Workbench -o <org-alias>`
 > 4. **Open it:** `sf org open -o <org-alias> --path "/lightning/n/MCP_Workbench"`
 >
-> Your assigned org ships with MCP Workbench pre-installed; if you self-provision, install it during setup so it's
+> Your workshop org (template 161) may already ship MCP Workbench; if it doesn't, install it during setup so it's
 > ready before you need it. *(Verify the repo + version ID are current at workshop time — it's a community tool, not a
 > Salesforce product.)*
 

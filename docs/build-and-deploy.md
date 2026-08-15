@@ -26,7 +26,7 @@ per group of ≤5)**. Pairs with [GUIDE.md](../GUIDE.md) (module narrative).
 ## 0. One-time setup
 
 ```bash
-sf org login web --alias <your-alias>       # your assigned org
+sf org login web --alias <your-alias>       # your workshop org (OrgFarm template 161)
 cd sfdx && sf config set target-org <your-alias>   # agent CLI runs from the DX project dir
 ```
 Confirm the reference build is present: `sf data query -q "SELECT Order_Number__c, Status__c FROM Order__c ORDER BY Order_Number__c"` → 5 rows (OR-1001..OR-1005). If empty, deploy + seed per [sfdx/README.md](../sfdx/README.md).

@@ -31,12 +31,12 @@ Prescribed AI tool: **Claude Code** (Agentforce Vibes = documented alternative +
 
 ## Prerequisites
 
-Your assigned org requires: Agentforce + Employee Agent; Hosted MCP + External Client App; a connected Slack 
+Your workshop org (**OrgFarm template 161**) is pre-configured with: Agentforce + Employee Agent; Hosted MCP + External Client App; a connected Slack 
 workspace; Agent API; Lightning Experience for the in-conversation card. The setup process is documented in 
 **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**.
 
 - **Salesforce CLI** (`sf`) — https://developer.salesforce.com/tools/salesforcecli
-- An **assigned org** (internally defined for the workshop). `sf org login web --alias <your-alias>`. **Agentforce must be enabled on it** (Setup toggle) before deploying the kit — see [PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md).
+- **Your own workshop org**, self-provisioned via **OrgFarm** — go to [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup), enter event code **`9T6Q7HYZ`** (template 161, pre-configured for Headless 360), then `sf org login web --alias <your-alias>`. Agentforce should already be on; **verify** it before deploying the kit — see [PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md).
 - **Claude Code**, with the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins (installed in GUIDE Module 0).
 - (Agent API surface) **Node.js** to run the `web/` sample client.
 
@@ -45,7 +45,7 @@ is the **[tool reference table in GUIDE Module 0](./GUIDE.md#tool-reference-inst
 
 ## Quick start
 
-1. Open your assigned workshop org (see **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**).
+1. Claim + open your workshop org via OrgFarm (see **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**).
 2. `./scripts/06-org-onboard.sh --org <your-alias>` — deploys the capability, assigns access, seeds data.
 3. `./scripts/smoke.sh --org <your-alias>` — confirms you're ready to build.
 4. Follow **[GUIDE.md](./GUIDE.md)** module by module. This repo is your authoritative guide.

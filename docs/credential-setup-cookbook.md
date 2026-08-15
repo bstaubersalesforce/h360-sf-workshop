@@ -5,7 +5,7 @@ click-by-click guide — do each in order, run the ✅ verify before moving on. 
 right there. Pairs with [build-and-deploy.md](./build-and-deploy.md) (the surrounding build).
 
 > **What's already done for you** (via the onboarder `./scripts/06-org-onboard.sh` — or a facilitator ran it on your
-> assigned org): the reference build is deployed — Apex, the `Order__c` object (+ **All Orders** list view), the
+> workshop org): the reference build is deployed — Apex, the `Order__c` object (+ **All Orders** list view), the
 > **`Slack_API` Named/External Credential**, and the **`Headless360_Workshop_Access`** permission set (assigned to you) —
 > plus the **5 hero records** (OR-1001..OR-1005) seeded by `05-seed-hero-data.sh`. You do **not** create those.
 > _(Prereq for all of this: Agentforce was enabled on the org first — see [PARTICIPANT-SETUP.md](../PARTICIPANT-SETUP.md).)_
