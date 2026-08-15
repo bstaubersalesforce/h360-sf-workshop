@@ -321,75 +321,68 @@ JWT rules as Module 3 — if calls fail `INVALID_AUTH_HEADER`, it's the JWT togg
 
 ---
 
-## Module 4 — Surface #2: React app over the Agent API
+## Module 4 — Surface #2: React app on the capability (in-org primary · Agent API secondary)
 
-**Goal:** the same capability embedded in a partner's own web app via the headless Agent API — "your product, headless."
-**Invokes the agent published in Module 2** (needs it published + activated).
+**Goal:** the same capability rendered in a custom React app — "your product, headless." Two React surfaces, both
+reaching the agent published in Module 2 (needs it published + activated). We **lead with the in-org (on-platform) React
+app** — lowest-friction, no token juggling — and treat the external Agent-API client as a **working second surface** for
+the fully-headless, off-platform story.
 
-> **React on the Agent API is available today (Multi-Framework).** Native React runs on-platform — each app gets a dedicated **`salesforce.app`** origin — and the **Data SDK (GraphQL)** and **Vibes 2.0** are validated with React. Two ways to surface the Skill in a web UI: (a) the **external Agent-API client** in `web/` (below), or (b) a **native on-platform React app** using Multi-Framework. Both render the *same* Skill. (Rendering that same Skill's card across Slack/Claude/mobile from one definition is the HXL "render everywhere" vision — shown as a demo, not built here.) Docs: [Multi-Framework developer guide](https://developer.salesforce.com/docs/platform/multiframework/guide/).
+> **React is GA on-platform (Multi-Framework).** Native React runs on Hyperforce orgs; each app gets a dedicated
+> **`salesforce.app`** origin; Data SDK (GraphQL) is GA and Vibes 2.0 is validated with React. The two surfaces render the
+> same agent **differently**: (a) the **in-org app** embeds the **Agentforce Conversation Client** (Lightning Out over
+> `my.salesforce.com`) — Agentforce's own chat UI, runs as the logged-in user, **no tokens**; (b) the **external `web/`
+> app** calls the raw **Agent API** and renders the structured Response as **your own card**. (Rendering one card across
+> Slack/Claude/mobile from a single definition is the HXL "render everywhere" vision — a facilitator demo, not built here.)
+> Docs: [Multi-Framework developer guide](https://developer.salesforce.com/docs/platform/multiframework/guide/).
 
-1. Confirm the agent is a **non-"Agentforce (Default)"** type (Employee qualifies) — the Agent API doesn't support Default.
-2. Configure the **Agent API** access (External Client App + OAuth scopes; note the **120-second timeout**).
-   *(Full click-by-click, incl. the PKCE-lock trap + Run-As perms: [credential-setup-cookbook.md §B](./docs/credential-setup-cookbook.md#b-agent-api-external-client-app-module-4).)*
-   🔴 Use a **SEPARATE ECA from the MCP one** (resolved 2026-07-23): scopes `api`, `chatbot_api`, `sfap_api`,
-   `refresh_token`, `offline_access` (**not** `mcp_api`); **client_credentials** flow with a **Run-As user** licensed for
-   **both API integration AND Agentforce agent use** (🔴 a bare API-Only integration user may lack agent-use — see the
-   cookbook §B license caveat), JWT tokens ON, "Require secret for Web Server/Refresh Token Flow" deselected. It can't share the MCP ECA
-   because that one is per-user authorization_code.
-3. Run the sample client. 🔴 **Follow [`web/README.md`](./web/README.md) in full — this is TWO processes, not one.**
-   The browser can't call the Agent API directly (`api.salesforce.com` sends no CORS headers, and the token must never
-   live in browser JS), so you run a small backend **proxy** that holds the token AND the React app:
-   ```bash
-   cd web && cp .env.example .env   # set VITE_SF_MYDOMAIN, VITE_AGENT_ID, VITE_CLIENT_ID + a FRESH access token
-   npm install                      # first time only
+### 4a — Primary: the in-org React app (native Multi-Framework)
 
-   # Terminal 1 — backend proxy (holds the token, forwards to the Agent API)
-   node proxy.mjs                   # → http://localhost:8787
-
-   # Terminal 2 — the React app
-   npm run dev                      # → http://localhost:5173  → click "Ask the agent"
-   ```
-   The client **starts a session → sends a message → renders the structured order-status Response** as a card — the
-   Agent API returning structured data your React front-end renders (no bundled UI).
-   ⚠️ **First call may look like it hangs / show a timeout-style delay** (session start + the 120s Agent-API ceiling) —
-   that is **not necessarily a failure.** Wait for the card; if nothing renders, check the **proxy log** (Terminal 1) for
-   the real status, not just the browser. A `401`/empty response = expired token → mint a fresh one into `.env` and
-   **restart `node proxy.mjs`** (it reads `.env` at startup).
-
-### 🔴 Checkpoint 4 — the separate-ECA + Run-As gate
-The Agent API needs its **own** ECA (not the MCP one) on the **client_credentials** flow with a Run-As user licensed for
-API + Agentforce agent use (see the cookbook §B license caveat). **Verify:** the web widget shows the same order status the
-agent query returned in Module 2 — one capability, another surface. Empty/401 response → token expired or Run-As
-misconfigured; 400 "Invalid user ID" → `bypassUser` wrong for an Employee agent.
-
-### Module 4b — the SAME Skill as a native IN-ORG React app (Multi-Framework) 🟡
-
-**The Multi-Framework headline:** the same capability rendered by a **native React app running *on* the platform** —
-its own **`salesforce.app`** origin, **GraphQL Data SDK**, no external proxy or token juggling. The kit ships it as the
-**`Headless360_OrderStatus` UI Bundle**. It's a **subsequent deploy step** — deliberately *not* in the base onboarding
-(`02-deploy.sh`) because it needs an `npm` build and pulls a large `node_modules` (which is `.forceignore`d so the
-scoped deploy stays clean):
+The kit ships the **`Headless360_OrderStatus` UI Bundle** — a native React app running *on* the platform, embedding the
+Order Assistant chat. It's a **subsequent deploy step** (not in base onboarding — it needs an `npm` build + a large
+`node_modules`, which is `.forceignore`d):
 
 ```bash
-./scripts/07-deploy-react-bundle.sh --org <alias>     # npm build + deploy UI Bundle + surfacing app + permset
+./scripts/07-deploy-react-bundle.sh --org <alias>     # run AFTER the agent is published (02-deploy.sh)
 ```
+It queries the org's `BotDefinition` Id → bakes **`VITE_AGENT_ID`** at build time → `npm run build` → scoped-deploys the
+UI Bundle + its surfacing **CustomApplication** + the **`Headless360_React_App`** permset (and assigns it). Then **open
+App Launcher → "Headless360 Order Status"** → the React app renders with the embedded **Order Assistant** chat; ask
+"status of order OR-1003" → the same Exception / "Approve rebooking" from Module 2, now in a custom React shell in the org.
 
-The script deploys three things — the **UI Bundle** (the React app), the **`Headless360 Order Status` Lightning app**
-that surfaces it (a `uiBundle`-backed `CustomApplication` — the bundle alone is invisible without it), and the
-**`Headless360_React_App`** permset (app visibility), which it also assigns. Then **open it from the App Launcher →
-"Headless360 Order Status."** Same Skill, now a first-class **on-platform** React surface — "build-once,
-render-anywhere" made concrete *inside* the org, alongside the external `web/` client above.
-*(Build + deploy + App-Launcher visibility validated on a clean trial-EE org 2026-08-15; on-screen rendering is a browser check.)*
+🔴 **Checkpoint 4a:** the app appears in App Launcher and the embedded chat answers on OR-1003. A **blank chat / "Order
+Assistant unavailable"** → `VITE_AGENT_ID` was built for a different org (or not set) — re-run `07-deploy-react-bundle.sh`
+against **this** org (it re-bakes the agent id). No tokens involved — the in-org client runs as you.
+*(Build + deploy + App-Launcher visibility + chat validated on a clean trial-EE org 2026-08-15.)*
 
-🔴 **`startSession 412` — FIX CONFIRMED: assign the agent-access permission to the Run-As / agent user.**
-**Field-verified 2026-07-31:** the 412 on `POST /agents/{id}/sessions` cleared once the **Run-As user was granted
-the agent's access permission set** — i.e. it *was* a permission problem, resolved by giving the agent user access to the
-agent. **Fix first:** assign the **agent-access permset** to the Run-As user (an employee agent is invisible to a user
-who doesn't hold agent access), confirm the agent is **published + activated**, and re-test. *(This supersedes an earlier
-docs-inferred read that 412 was purely a wrong-endpoint issue — the observed fix was the permission grant. If the perm
-grant doesn't clear it, then check the endpoint: the kit's `web/proxy.mjs` uses the canonical
-`…/einstein/ai-agent/v1/agents/{botId}/sessions`; a hand-built `v6.0.0/…/sessions` caller with a `"mode"` field is a
-different, non-Agent-API surface and can also misbehave.)*
+### 4b — Secondary (working): the external Agent-API client — "fully headless"
+
+The `web/` app calls the **raw Agent API** and renders the structured Response as **your own card** — the true "your
+product, headless" surface (off-platform, your own front end).
+
+1. Agent must be a **non-"Agentforce (Default)"** type (Employee qualifies) — the Agent API doesn't support Default.
+2. **Agent-API ECA — a SEPARATE ECA from the MCP one:** scopes `api`, `chatbot_api`, `sfap_api`, `refresh_token`,
+   `offline_access` (**not** `mcp_api`); **client_credentials** flow, JWT tokens ON, "Require secret for Web Server /
+   Refresh Token Flow" deselected, and a **Run-As user licensed for both API integration AND Agentforce agent use**
+   (a bare API-Only user may lack agent-use).
+   *(Click-by-click + license caveat: [credential-setup-cookbook.md §B](./docs/credential-setup-cookbook.md#b-agent-api-external-client-app-module-4).)*
+3. **Save your creds into `web/.env`.** You'll have the ECA **Consumer Key + a fresh Consumer Secret** (from the creds
+   file saved to your desktop, or copy from Setup → External Client App Manager). Put them in `web/.env`, then run **two
+   processes** (the browser can't call `api.salesforce.com` directly — no CORS, and the token must never live in browser
+   JS — so `proxy.mjs` holds the token and forwards):
+   ```bash
+   cd web && cp .env.example .env    # set VITE_SF_MYDOMAIN, VITE_AGENT_ID, VITE_CLIENT_ID, SF_CLIENT_SECRET + a FRESH access token
+   npm install                       # first time only
+   node proxy.mjs                    # Terminal 1 — proxy holds the token, forwards to the Agent API (→ :8787)
+   npm run dev                       # Terminal 2 — the React app (→ :5173) → "Ask the agent"
+   ```
+   `web/.env` is **gitignored** — keep the creds file off git. Full walk-through: [`web/README.md`](./web/README.md).
+
+🔴 **Checkpoint 4b — it's the token, not the network.** The web card shows the same OR-1003 status.
+- `401` / empty → **expired/wrong token**: mint a fresh one into `web/.env` and **restart `node proxy.mjs`** (it reads `.env` at startup).
+- session-start **412** → assign the **agent-access permset** to the Run-As user (an Employee agent is invisible to a user without agent access); confirm the agent is **published + activated**.
+- **400 "Invalid user ID"** → `bypassUser` wrong for an Employee agent.
+- First call may show a timeout-style delay (session start + the 120s Agent-API ceiling) — wait for the card; check the **proxy log** (Terminal 1) for the real status, not just the browser.
 
 ---
 

@@ -5,7 +5,7 @@
 
 Attendee-facing, hands-on build/deploy for the Headless 360 reference apps. Assumes a **pre-configured participant
 org** (Agentforce + Hosted MCP + reference build deployed). A **Slack workspace connection is optional (on request)** —
-some groups opt in, so expect a few shared workspaces. Pairs with [GUIDE.md](../GUIDE.md) (module narrative).
+5–7 shared Slack orgs will be available for teams that want the Slack surface. Pairs with [GUIDE.md](../GUIDE.md) (module narrative).
 
 > **Note on ordering:** this is a **deploy-dependency** guide (Skill/agent foundation first, then surfaces) — it does
 > **not** match the GUIDE's participant *teaching* order (capability-first, reordered 2026-07-29). In the GUIDE the
@@ -15,8 +15,8 @@ some groups opt in, so expect a few shared workspaces. Pairs with [GUIDE.md](../
 > **Provisioning status (read first):**
 > - **Participant orgs** — pre-configured by Partner Solutions: reference build deployed, permset assigned, hero
 >   `Order__c` records seeded, MCP servers activatable. You log in and build.
-> - **Slack workspaces — optional, on request.** Slack (Module 5) is opt-in; groups that want it get a shared workspace
->   (a single workspace caps at 5 connected Salesforce orgs, so expect a few). Use a **standard (non-Enterprise-Grid) workspace** where
+> - **Slack workspaces — optional, on request.** Slack (Module 5) is opt-in; **5–7 shared Slack orgs** will be available
+>   for teams that want it (a single workspace caps at 5 connected Salesforce orgs). Use a **standard (non-Enterprise-Grid) workspace** where
 >   you're admin — Grid orgs gate custom-app tokens and pre-seed IP allowlists (see the Module 5 gotchas).
 
 ---
