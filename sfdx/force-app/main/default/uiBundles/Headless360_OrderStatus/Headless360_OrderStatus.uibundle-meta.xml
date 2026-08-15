@@ -3,5 +3,6 @@
     <masterLabel>Headless360 Order Status</masterLabel>
     <description>A Salesforce UI Bundle.</description>
     <isActive>true</isActive>
+    <target>CustomApplication</target>
     <version>1</version>
 </UIBundle>

@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router';
 import { getAllRoutes } from './router-utils';
 import { useState } from 'react';
+import { AgentforceChat } from './components/AgentforceChat';
 
 export default function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,15 +28,15 @@ export default function AppLayout() {
 
   return (
     <>
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-secondary border-b-2 border-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-xl font-semibold text-gray-900">
-              React App
+            <Link to="/" className="text-xl font-semibold text-primary">
+              Headless 360 Workshop
             </Link>
             <button
               onClick={toggleMenu}
-              className="p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 rounded-md text-primary hover:bg-white focus:outline-none focus:ring-2 focus:ring-accent"
               aria-label="Toggle menu"
             >
               <div className="w-6 h-6 flex flex-col justify-center space-y-1.5">
@@ -65,8 +66,8 @@ export default function AppLayout() {
                     onClick={() => setIsOpen(false)}
                     className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       isActive(item.path)
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-primary hover:bg-white'
                     }`}
                   >
                     {item.label}
@@ -78,6 +79,7 @@ export default function AppLayout() {
         </div>
       </nav>
       <Outlet />
+      <AgentforceChat />
     </>
   );
 }

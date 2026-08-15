@@ -1,75 +1,64 @@
-# Base React App
+# Headless360 Order Status — React UI Bundle (in-org, Multi-Framework)
 
-Base React App is a template application that demonstrates how to build a React UI Bundle on the Salesforce platform with Vite, TypeScript, Tailwind, shadcn/ui, and the Salesforce UI Bundle SDK. It provides a minimal shell (home, 404), routing, and GraphQL codegen support so feature apps can extend it via the patches pipeline.
+The **in-org React surface** for the Headless 360 workshop (GUIDE **Module 4a**). A React app
+(Vite + TypeScript + Tailwind + shadcn/ui + the Salesforce UI Bundle SDK) deployed *inside* the
+org on its `salesforce.app` origin, surfaced via the **Headless360 Order Status** CustomApplication.
+It embeds the **Agentforce Conversation Client** (Lightning Out over `my.salesforce.com`) — Agentforce's
+own chat UI, running as the logged-in user, **no tokens** — alongside an `Order__c` view via the Data SDK (GraphQL).
 
-This UI Bundle lives inside an SFDX project. The project root is the directory that contains `force-app/` and `sfdx-project.json`. Run the commands in the sections below from the paths indicated.
+> This is *not* the external Agent-API client — that's `web/` at the repo root (Module 4b). Both reach
+> the same agent; this one renders the embedded chat, the `web/` one renders a custom card.
 
-## Table of contents
+## Deploy (the supported path)
 
-- [Run (development)](#run-development)
-- [Build](#build)
-- [Deploy](#deploy)
-- [Test](#test)
+**Use the kit script — it handles the per-org agent-id bake, build, and scoped deploy in one step:**
 
-## Run (development)
+```bash
+# from the repo root, AFTER the agent is published (scripts/02-deploy.sh):
+./scripts/07-deploy-uibundle.sh --org <alias>
+```
 
-From the UI Bundle directory (`force-app/main/default/uiBundles/Headless360_OrderStatus`):
+It: (1) queries the org's `BotDefinition` Id → writes `VITE_AGENT_ID` into `.env.local`;
+(2) `npm run build` (Vite **inlines `VITE_AGENT_ID` at build time** — so a bundle built for one org
+will NOT work in another; always rebuild per org); (3) scoped-deploys **only** `uiBundles/` +
+`applications/` (a full `force-app` deploy would sweep this bundle's ~590 MB `node_modules` past the
+Metadata API limits — `.forceignore` guards it; `dist/` ships).
+
+Then **activate/tour**: App Launcher → **Headless360 Order Status** → ask the embedded chat
+"status of order OR-1003". A blank chat means `VITE_AGENT_ID` was built for a different org (the app
+renders a visible error saying so) — rerun `07-deploy-uibundle.sh` against *this* org.
+
+### Manual equivalent (if you're not using the script)
+
+From this bundle directory:
+
+```bash
+# STEP 0 — bake the per-org agent id (Vite inlines it at build):
+sf data query -o <alias> -q "SELECT Id FROM BotDefinition WHERE DeveloperName='Headless360_Order_Assistant'" --json \
+  | python3 -c 'import sys,json;print("VITE_AGENT_ID="+json.load(sys.stdin)["result"]["records"][0]["Id"])' >> .env.local
+npm install       # first time
+npm run build     # → dist/  (tsc -b && vite build)
+```
+
+Then, from the **SFDX project root** (`sfdx/`):
+
+```bash
+sf project deploy start --source-dir force-app/main/default/uiBundles force-app/main/default/applications --target-org <alias>
+```
+
+## Run (local dev preview)
 
 ```bash
 npm install
-npm run dev
+npm run dev            # Vite dev server (localhost)
 ```
 
-This starts the Vite dev server (e.g. http://localhost:5173). Use `npm run dev:design` to run in design mode.
-
-## Build
-
-From the UI Bundle directory:
-
-```bash
-npm install
-npm run build
-```
-
-The production build is written to `dist/` inside the UI Bundle folder. Deploy using the steps in [Deploy](#deploy).
-
-## Deploy
-
-From the **SFDX project root** (the directory that contains `force-app/`):
-
-1. Build the UI Bundle:
-
-   ```bash
-   cd force-app/main/default/uiBundles/Headless360_OrderStatus && npm install && npm run build && cd -
-   ```
-
-2. Deploy the UI Bundle only:
-
-   ```bash
-   sf project deploy start --source-dir force-app/main/default/ui-bundles --target-org <alias>
-   ```
-
-   Or deploy all metadata:
-
-   ```bash
-   sf project deploy start --source-dir force-app --target-org <alias>
-   ```
-
-   Replace `<alias>` with your target org alias.
+Localhost has no Salesforce session, so the embedded chat needs a dev-only `VITE_SF_FRONTDOOR_URL`
+in `.env.local` (see `.env.local.example`) — that branch is stripped from production builds
+(`import.meta.env.DEV`), so a stray frontdoor URL can never bake into a deployed bundle.
 
 ## Test
 
-From the UI Bundle directory:
-
 ```bash
-npm install
-npm run test
+npm run test          # Vitest (config in vitest.config.ts)
 ```
-
-This runs the unit test suite (Vitest). For end-to-end tests from the **base-react-app package root**:
-
-```bash
-npm run test:e2e
-```
-
-This installs dependencies, builds with E2E asset rewrites, and runs Playwright. Ensure Chromium is installed (`npx playwright install chromium` if needed).
