@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy the reference-build metadata to the assigned org.
+# Deploy the reference-build metadata to the workshop org.
 #
 # 3-phase sequence (order matters — see KNOWN-GAPS T11, validated 2026-08-06):
 #   1. Deploy all metadata EXCEPT the permission set. The agent ships as an

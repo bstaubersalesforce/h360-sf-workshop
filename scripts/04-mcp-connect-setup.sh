@@ -50,6 +50,8 @@ pass "org '$ORG' reachable"
 
 # --- edition / LEX sanity (best-effort; warn-only, never blocks) ---
 EDITION="$(sf org display --target-org "$ORG" --json 2>/dev/null | grep -o '"edition"[^,]*' | head -1)"
+# Trial / OrgFarm orgs often omit "edition" from `org display` → fall back to Organization.OrganizationType.
+[ -n "$EDITION" ] || EDITION="$(sf data query --target-org "$ORG" -q 'SELECT OrganizationType FROM Organization LIMIT 1' --json 2>/dev/null | grep -o '"OrganizationType"[^,}]*' | head -1)"
 [ -n "$EDITION" ] && echo "  org $EDITION"
 case "$EDITION" in
   *Developer*|*Enterprise*|*Partner*) pass "edition supports Agentforce/Einstein (Einstein1AIPlatform-eligible)";;
@@ -109,7 +111,7 @@ fi
 # 2) Assign the workshop permset (idempotent).
 sf org assign permset --name "$PERMSET" --target-org "$ORG" >/dev/null 2>&1 \
   && pass "permset '$PERMSET' assigned" \
-  || warn "permset '$PERMSET' assign failed — deploy the reference build first, then re-run"
+  || warn "permset '$PERMSET' not newly assigned — already assigned (fine), or deploy the reference build first (02-deploy.sh)"
 
 # 3) Guided External Client App card — the WORKSHOP PATH (manual, per org).
 #    The ECA is a per-org Module 3 step: create it from the card below. It is NOT in the base
