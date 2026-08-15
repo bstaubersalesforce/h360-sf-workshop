@@ -22,9 +22,14 @@ AGENT="Headless360_Order_Assistant"
 cd "$ROOT/sfdx"
 
 # 1) Everything except the permission set (deploy the whole dir minus permissionsets).
-echo "→ 1/3 deploying metadata (excl. permission set)…"
+#    The ECA family (externalClientApps + extlClntApp* OAuth settings) is intentionally EXCLUDED:
+#    the MCP External Client App is org-scoped (its <orgScopedExternalApp> needs the TARGET org's
+#    own Id, which differs per participant), so it can't be a static committed artifact. It's a
+#    per-org Module 3 step — create it via the guided card (04-mcp-connect-setup.sh), never in the
+#    base capability deploy. (Validated 2026-08-15: including it fails a clean-org deploy.)
+echo "→ 1/3 deploying metadata (excl. permission set + ECA)…"
 DIRS=""
-for d in classes objects tabs layouts lightningTypes lwc namedCredentials externalCredentials externalClientApps extlClntAppGlobalOauthSets extlClntAppOauthSettings extlClntAppOauthPolicies aiAuthoringBundles; do
+for d in classes objects tabs layouts lightningTypes lwc namedCredentials externalCredentials aiAuthoringBundles; do
   [ -d "force-app/main/default/$d" ] && DIRS="$DIRS force-app/main/default/$d"
 done
 sf project deploy start --source-dir $DIRS --target-org "$ORG" || { fail "metadata deploy failed"; exit 1; }
