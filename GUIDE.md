@@ -371,13 +371,15 @@ its own **`salesforce.app`** origin, **GraphQL Data SDK**, no external proxy or 
 scoped deploy stays clean):
 
 ```bash
-./scripts/07-deploy-react-bundle.sh --org <alias>     # npm install + build + deploy the UI Bundle
+./scripts/07-deploy-react-bundle.sh --org <alias>     # npm build + deploy UI Bundle + surfacing app + permset
 ```
 
-Then open it per [`uiBundles/Headless360_OrderStatus/README.md`](./sfdx/force-app/main/default/uiBundles/Headless360_OrderStatus/README.md)
-(App Launcher / the bundle's `salesforce.app` origin). Same Skill, now a first-class **on-platform** React surface —
-"build-once, render-anywhere" made concrete *inside* the org, alongside the external `web/` client above.
-*(Build + scoped deploy validated on a clean trial-EE org 2026-08-15; end-to-end rendering is a browser check.)*
+The script deploys three things — the **UI Bundle** (the React app), the **`Headless360 Order Status` Lightning app**
+that surfaces it (a `uiBundle`-backed `CustomApplication` — the bundle alone is invisible without it), and the
+**`Headless360_React_App`** permset (app visibility), which it also assigns. Then **open it from the App Launcher →
+"Headless360 Order Status."** Same Skill, now a first-class **on-platform** React surface — "build-once,
+render-anywhere" made concrete *inside* the org, alongside the external `web/` client above.
+*(Build + deploy + App-Launcher visibility validated on a clean trial-EE org 2026-08-15; on-screen rendering is a browser check.)*
 
 🔴 **`startSession 412` — FIX CONFIRMED: assign the agent-access permission to the Run-As / agent user.**
 **Field-verified 2026-07-31:** the 412 on `POST /agents/{id}/sessions` cleared once the **Run-As user was granted

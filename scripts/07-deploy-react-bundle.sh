@@ -17,6 +17,8 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ORG="$(resolve_org "$@")"
 [ -n "$ORG" ] || { fail "no org (pass --org <alias> or set ORG_ALIAS)"; exit 1; }
 BUNDLE="force-app/main/default/uiBundles/Headless360_OrderStatus"
+APP="force-app/main/default/applications/Headless360_OrderStatus.app-meta.xml"
+REACT_PERMSET="force-app/main/default/permissionsets/Headless360_React_App.permissionset-meta.xml"
 DO_BUILD=1
 for a in "$@"; do [ "$a" = "--no-build" ] && DO_BUILD=0; done
 
@@ -32,10 +34,17 @@ else
   echo "  (--no-build) skipping npm build"
 fi
 
-echo "→ 2/2 deploying the UI Bundle → $ORG (node_modules .forceignore'd)…"
-sf project deploy start -d "$BUNDLE" --target-org "$ORG" \
-  && pass "in-org React app deployed (UIBundle Headless360_OrderStatus)" \
-  || { fail "UIBundle deploy failed"; exit 1; }
+echo "→ 2/3 deploying UI Bundle + surfacing app + permset → $ORG (node_modules .forceignore'd)…"
+#   The CustomApplication (uiBundle-backed) is what puts the React app in the App Launcher — the
+#   bundle alone is invisible. The app + permset deploy AFTER the bundle so the uiBundle reference resolves.
+sf project deploy start -d "$BUNDLE" "$APP" "$REACT_PERMSET" --target-org "$ORG" \
+  && pass "in-org React app deployed (UIBundle + CustomApplication + permset)" \
+  || { fail "UIBundle/app deploy failed"; exit 1; }
 
-echo "→ Open it per the bundle README (App Launcher / its salesforce.app origin):"
-echo "   sfdx/$BUNDLE/README.md"
+echo "→ 3/3 assigning app-visibility permset…"
+sf org assign permset --name Headless360_React_App --target-org "$ORG" >/dev/null 2>&1 \
+  && pass "app visibility granted (Headless360_React_App assigned)" \
+  || warn "permset assign failed (likely already assigned) — non-fatal"
+
+echo "→ Open it: App Launcher → 'Headless360 Order Status' (the native React app)."
+echo "   Details: sfdx/$BUNDLE/README.md"
