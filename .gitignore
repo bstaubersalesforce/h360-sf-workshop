@@ -10,7 +10,9 @@ docs/H360-Workshop-Org_Test.rtf
 *.secrets
 # env files — hold live tokens/keys for the web sample
 **/.env
+**/.env.local
 !**/.env.example
+!**/.env.local.example
 
 # node deps for the web sample
 web/node_modules/
