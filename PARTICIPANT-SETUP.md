@@ -15,8 +15,8 @@ You provision your **own** pre-configured org from OrgFarm using the workshop ev
 waiting on an assigned login.
 
 1. Go to **https://orgfarm.salesforce.com/signup**.
-2. Enter the **workshop event code: `9T6Q7HYZ`** — this dispenses the workshop template
-   (**template 161**), pre-configured for Headless 360.
+2. Enter the **workshop event code** (provided by your facilitator / on the setup slide) — it
+   dispenses the workshop template (**template 161**), pre-configured for Headless 360.
 3. Complete the signup form. **Use your work email** as the admin email so you receive
    verification / reset mail, then **confirm** the verification email Salesforce sends.
 4. **Log in** to your new org and note its My Domain URL.

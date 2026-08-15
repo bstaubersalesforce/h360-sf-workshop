@@ -36,7 +36,7 @@ workspace; Agent API; Lightning Experience for the in-conversation card. The set
 **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**.
 
 - **Salesforce CLI** (`sf`) — https://developer.salesforce.com/tools/salesforcecli
-- **Your own workshop org**, self-provisioned via **OrgFarm** — go to [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup), enter event code **`9T6Q7HYZ`** (template 161, pre-configured for Headless 360), then `sf org login web --alias <your-alias>`. Agentforce should already be on; **verify** it before deploying the kit — see [PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md).
+- **Your own workshop org**, self-provisioned via **OrgFarm** — go to [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup), enter the workshop **event code** (provided by your facilitator; template 161, pre-configured for Headless 360), then `sf org login web --alias <your-alias>`. Agentforce should already be on; **verify** it before deploying the kit — see [PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md).
 - **Claude Code**, with the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins (installed in GUIDE Module 0).
 - (Agent API surface) **Node.js** to run the `web/` sample client.
 

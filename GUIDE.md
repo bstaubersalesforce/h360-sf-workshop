@@ -36,12 +36,12 @@ for the Dreamforce showcase. That's the reusable skill partners take home.
 **Goal:** workshop org claimed & reachable, tooling installed, repo cloned.
 
 > **Participant one-org setup:** if you're getting your own workshop org ready end-to-end, follow
-> **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — (1) claim your org via OrgFarm (event code
-> `9T6Q7HYZ`, template 161), (2) verify Agentforce is on, (3) `./scripts/06-org-onboard.sh --org <alias>`
+> **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — (1) claim your org via OrgFarm (event code from
+> your facilitator, template 161), (2) verify Agentforce is on, (3) `./scripts/06-org-onboard.sh --org <alias>`
 > (deploy + permset + hero data + smoke test), (4) verify. The steps below are the underlying detail.
 
 1. Claim your **workshop org** via OrgFarm — [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup),
-   event code **`9T6Q7HYZ`** (template 161) — then `sf org login web --alias <your-alias>`.
+   **event code from your facilitator** (template 161) — then `sf org login web --alias <your-alias>`.
 2. Install **Claude Code** + the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins.
    - `agentforce-adlc` — build/preview/test/deploy the agent and its actions.
    - `sf-mcp-partner-toolkit` — scaffold/deploy/diagnose MCP integration (used in Module 3, Connect).
