@@ -94,10 +94,23 @@ Commands below are macOS "easy buttons" (Homebrew / npm / install script); the l
 > **[github.com/mvogelgesang/MCP-Workbench](https://github.com/mvogelgesang/MCP-Workbench)**. The `sf-mcp-partner-toolkit`
 > plugin's **`diagnose-connection`** skill installs it for you; to do it by hand:
 > 1. **Package version ID:** `04tHs000000iSjcIAE` (re-verify current at workshop time — it's a community tool).
-> 2. **Install:** `sf package install -p 04tHs000000iSjcIAE -o <org-alias> --wait 5`  (or browser: `/packaging/installPackage.apexp?p0=04tHs000000iSjcIAE`)
->    *(Namespaced org where package install fails? Source-deploy instead: `git clone https://github.com/mvogelgesang/MCP-Workbench.git`, then `sf project deploy start --source-dir force-app/main/default -o <org-alias>`.)*
-> 3. **Assign the permset:** `sf org assign permset --name MCP_Workbench -o <org-alias>`
-> 4. **Open it:** `sf org open -o <org-alias> --path "/lightning/n/MCP_Workbench"`
+> 2. **Install** (or browser: `/packaging/installPackage.apexp?p0=04tHs000000iSjcIAE`):
+>    ```bash
+>    sf package install -p 04tHs000000iSjcIAE -o <org-alias> --wait 5
+>    ```
+>    *(Namespaced org where package install fails? Source-deploy instead:)*
+>    ```bash
+>    git clone https://github.com/mvogelgesang/MCP-Workbench.git
+>    sf project deploy start --source-dir force-app/main/default -o <org-alias>
+>    ```
+> 3. **Assign the permset:**
+>    ```bash
+>    sf org assign permset --name MCP_Workbench -o <org-alias>
+>    ```
+> 4. **Open it:**
+>    ```bash
+>    sf org open -o <org-alias> --path "/lightning/n/MCP_Workbench"
+>    ```
 >
 > Your workshop org (template 161) may already ship MCP Workbench; if it doesn't, install it during setup so it's
 > ready before you need it. *(Verify the repo + version ID are current at workshop time — it's a community tool, not a
@@ -165,7 +178,11 @@ Employee Agent + an Apex `@InvocableMethod` Skill over `Order__c` + its in-conve
 > self-provision, run `./scripts/06-org-onboard.sh`. In-room, this module is a **guided tour + one hands-on query**
 > (step 4), not a live build.
 
-1. **Deploy the metadata:** `./scripts/02-deploy.sh --org <alias>` then `./scripts/03-assign-perms.sh --org <alias>`.
+1. **Deploy the metadata** — run these two, one at a time:
+   ```bash
+   ./scripts/02-deploy.sh --org <alias>
+   ./scripts/03-assign-perms.sh --org <alias>
+   ```
    `02-deploy.sh` runs a **3-phase sequence** (metadata → `sf agent publish`+`activate` → permset last — see step 2 for why
    order matters) and deploys the `Order__c` object, the **Order tab + page layout** (all 5 fields — so the record is
    viewable in the UI; these were manual clicks in the reference org, now in metadata), the `OrderStatusSkill`
@@ -173,12 +190,21 @@ Employee Agent + an Apex `@InvocableMethod` Skill over `Order__c` + its in-conve
    Slack action, and the permset (Order__c object + field FLS **and** Order-tab visibility).
    ⚠️ **Deploying the permset does NOT assign it** — `03-assign-perms.sh` assigns it to the running user (assign it to each
    participant / Run-As user too). The Order__c FLS lives in the permset, so an unassigned user sees no fields / no tab.
-   **Seed the 5 hero records** (OR-1001..OR-1005): `./scripts/05-seed-hero-data.sh --org <alias>` (idempotent; run after `03-assign-perms.sh` so the permset FLS is in place — an unseeded org makes the agent answer "No order matches OR-1003"). The `Order__c` object ships an **All Orders** list view, so the rows appear on the tab immediately.
+   **Seed the 5 hero records** (OR-1001..OR-1005) — idempotent; run after `03-assign-perms.sh` so the permset FLS is in place (an unseeded org makes the agent answer "No order matches OR-1003"):
+   ```bash
+   ./scripts/05-seed-hero-data.sh --org <alias>
+   ```
+   The `Order__c` object ships an **All Orders** list view, so the rows appear on the tab immediately.
 2. **Deploy + publish + activate the Employee Agent** — **`02-deploy.sh` already does this** (it's a 3-phase script:
    deploy metadata incl. the `.agent` bundle → `sf agent publish` + `sf agent activate` → deploy the permset last). The
    commands below are **what the script runs under the hood / how to do it by hand**. The agent ships as an **Agent Script
-   bundle**, not UI-authored (`agentforce-adlc`): `sf project deploy start --metadata AiAuthoringBundle:Headless360_Order_Assistant`
-   → `sf agent publish authoring-bundle --api-name Headless360_Order_Assistant` → `sf agent activate …`. **The compiled
+   bundle**, not UI-authored (`agentforce-adlc`) — the by-hand sequence:
+   ```bash
+   sf project deploy start --metadata AiAuthoringBundle:Headless360_Order_Assistant
+   sf agent publish authoring-bundle --api-name Headless360_Order_Assistant
+   sf agent activate --api-name Headless360_Order_Assistant
+   ```
+   **The compiled
    Bot + planner are NOT in source** — `publish` generates them; a `.forceignore` keeps them out. Agent type =
    **Employee** (`AgentforceEmployeeAgent`) — required for Slack + CLT + Agent API; no `default_agent_user`.
    🔴 **This is the one ordering gate:** everything downstream (Slack, React/Agent-API, the CLT render) needs the agent
@@ -190,7 +216,10 @@ Employee Agent + an Apex `@InvocableMethod` Skill over `Order__c` + its in-conve
 4. **Tour it + run one query (the hands-on beat).** Walk the pieces on screen — the **Order tab** (list view + a record with
    all fields on the page — status, summary, next action), the `OrderStatusSkill`
    class, the agent's Topic/action wiring, the CLT — then **each participant runs one query** against the live agent:
-   `sf agent preview start --use-live-actions --authoring-bundle Headless360_Order_Assistant`, ask *"what's the status of
+   ```bash
+   sf agent preview start --use-live-actions --authoring-bundle Headless360_Order_Assistant
+   ```
+   Ask *"what's the status of
    order OR-1003?"* → the agent invokes Get Order Status, returns the **real** record ("carrier exception… Approve
    rebooking"), and renders the **rich card** in LEX. Now everyone has touched the capability before wiring surfaces to it.
 5. **Profile the cost** with `sf-flex-estimator` — estimate the Flex-credit weight of the action before scaling
@@ -223,9 +252,15 @@ Employee Agent + an Apex `@InvocableMethod` Skill over `Order__c` + its in-conve
 running as the signed-in user (sharing/FLS enforced). **Standalone: this reaches the object/Apex directly over MCP and
 does not require the agent** (MCP and the agent are parallel paths to the same Skill).
 
-> **Helper:** `./scripts/04-mcp-connect-setup.sh --org <alias>` does the deterministic prep (deploy + permset + edition/LEX
-> check) and prints an **exact-values card** for the External Client App step below. After you create the ECA, `--verify`
-> confirms the org is Connect-ready. The ECA itself stays a guided manual step — it's the M3 (Connect) teaching moment.
+> **Helper** — this does the deterministic prep (deploy + permset + edition/LEX check) and prints an **exact-values card**
+> for the External Client App step below:
+>
+> ```bash
+> ./scripts/04-mcp-connect-setup.sh --org <alias>
+> ```
+>
+> After you create the ECA, re-run it with `--verify` to confirm the org is Connect-ready. The ECA itself stays a guided
+> manual step — it's the M3 (Connect) teaching moment.
 
 1. **Activate MCP servers:** Setup → Quick Find `MCP Servers` (under **API Catalog**) → **Salesforce Servers** → activate
    **`headless-360`**. The Headless 360 MCP Server (`platform/headless-360`, Beta) exposes **four tools —
@@ -287,10 +322,11 @@ does not require the agent** (MCP and the agent are parallel paths to the same S
    **Setup → API Catalog → MCP Servers** (step 1) and lives on a different path, so `list` returns an empty table unless
    you've separately registered an external server. **Don't chase the empty table.** This step is a *bonus* for teams who
    also want the external-registration path; the workshop's connection is already proven by the Claude smoke test above.
-   - **`sf agent mcp list`** — lists **externally-registered** API-Catalog servers (empty here by design — see above).
-   - **`sf agent mcp fetch --mcp-server-id <id>`** — for a server you *did* register, fetch the live assets (tools,
-     prompts, resources) it advertises — a scriptable "does this server expose the tools I expect?" check.
-   - **`sf agent mcp create --server-url …`** — registers an **external** MCP server into the API Catalog.
+   ```bash
+   sf agent mcp list                            # lists externally-registered API-Catalog servers (empty here by design — see above)
+   sf agent mcp fetch --mcp-server-id <id>      # for a server you DID register: fetch its advertised tools/prompts/resources
+   sf agent mcp create --server-url <endpoint>  # registers an external MCP server into the API Catalog
+   ```
    ⚠️ **Preview** (label/behavior may change). Bottom line: use this group only if you're exploring the **external**
    MCP-registration path — it does **not** replace the Setup activation (step 1) or the run-as smoke test that already
    proved your `headless-360` connection.
@@ -416,8 +452,11 @@ product, headless" surface (off-platform, your own front end).
 1. **Create + install a Slack app** in your workspace with bot scopes `chat:write`, `channels:read` (+ `chat:write.public`
    to post without inviting the bot to each channel). Copy the **Bot User OAuth Token** (`xoxb-…`).
    *(Full click-by-click, incl. the `auth.test` pre-check + IP-allowlist gotcha: [credential-setup-cookbook.md §C](./docs/credential-setup-cookbook.md#c-slack-app--bot-token-module-5).)*
-   🔴 **Validate the token FIRST:** `curl -s -H "Authorization: Bearer <xoxb-…>" https://slack.com/api/auth.test` → must
-   return `{"ok":true}`. `invalid_auth` = bad token OR a **disallowed source IP** (the app's OAuth&Permissions → "Restrict
+   🔴 **Validate the token FIRST** — must return `{"ok":true}`:
+   ```bash
+   curl -s -H "Authorization: Bearer <xoxb-...>" https://slack.com/api/auth.test
+   ```
+   `invalid_auth` = bad token OR a **disallowed source IP** (the app's OAuth&Permissions → "Restrict
    API Token Usage" allowlist vs. your egress IP — clear it; note the *org* callout egresses from Salesforce IPs).
 2. **Store the token in the org** (Setup → Named Credentials → External Credentials → `Slack API` → Principals → edit
    `Slack_Bot_Principal` → Authentication Parameters → Name=`BotToken`, Value=`xoxb-…`, no `Bearer` prefix). The reference
@@ -515,7 +554,11 @@ versions, and the CLT all made it in) — so the path is real; here's the shape 
 2. **Deliver the org config as a post-install Skill** (the PIE `partner-package-post-install` / `sf-package-post-install`
    pattern) — package the capability, wire the creds + agent activation after install. This is the
    software-plus-services motion.
-3. **Generate the package** — `sf package create` → `sf package version create` (both require a Dev Hub enabled first).
+3. **Generate the package** (both require a Dev Hub enabled first):
+   ```bash
+   sf package create
+   sf package version create
+   ```
 
 📦 That three-bucket split + these two commands are the whole shape: package the capability, deliver the org config as a post-install Skill, activate the agent per org.
 
@@ -531,15 +574,22 @@ versions, and the CLT all made it in) — so the path is real; here's the shape 
 
 1. **Add a Named Principal** to the existing **External Credential** (your external MCP server's auth).
 2. **Grant External Credential Principal Access** on the permission set.
-3. **Install MCP Workbench** (the in-org diagnostic — Postman-for-in-org-MCP-callouts):
-   `sf package install -p 04tHs000000iSjcIAE -o <alias> --wait 5` (or `/packaging/installPackage.apexp?p0=04tHs000000iSjcIAE`).
-   Source: [github.com/mvogelgesang/MCP-Workbench](https://github.com/mvogelgesang/MCP-Workbench).
+3. **Install MCP Workbench** (the in-org diagnostic — Postman-for-in-org-MCP-callouts) — or browser-install via
+   `/packaging/installPackage.apexp?p0=04tHs000000iSjcIAE`. Source: [github.com/mvogelgesang/MCP-Workbench](https://github.com/mvogelgesang/MCP-Workbench):
+   ```bash
+   sf package install -p 04tHs000000iSjcIAE -o <alias> --wait 5
+   ```
 4. **Grant the Platform Integration User** — run *after* Workbench is installed. The MCP-5 trap: the agent's
    runtime callout runs as the PIU, not you, so a Workbench/curl test can pass while the wired agent returns
-   "no data." `sf apex run --file scripts/apex/assign-piu-mcp-permset.apex -o <alias>` *(adapted from the nCino
-   Agentforce workshop, Checkpoint 2p).*
-5. **Register the MCP tools** so the agent can call them: `sf agent mcp create --server-url <your-endpoint>`,
-   then `sf agent mcp list` / `fetch` to confirm.
+   "no data" *(adapted from the nCino Agentforce workshop, Checkpoint 2p)*:
+   ```bash
+   sf apex run --file scripts/apex/assign-piu-mcp-permset.apex -o <alias>
+   ```
+5. **Register the MCP tools** so the agent can call them:
+   ```bash
+   sf agent mcp create --server-url <your-endpoint>
+   sf agent mcp list        # confirm the server + tools registered
+   ```
 
 Grab a facilitator when you're ready to wire this into your POV.
 
