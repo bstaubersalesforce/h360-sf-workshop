@@ -138,6 +138,7 @@ cat <<EOF
    Setup → External Client App Manager → New
    • Label / API name:  $ECA_LABEL   ·   Contact email: yours (REQUIRED)
    • Enable OAuth:      ON
+   • Flow Enablement:  CHECK "Enable Authorization Code and Credentials Flow"  🔴 NONE on by default (MCP = auth-code + PKCE)
    • Callback URLs:     $MCP_CALLBACK_URL_WEB   (claude.ai web / desktop)
                         $MCP_CALLBACK_URL_CLI        (Claude Code CLI — loopback; one per line)
    • OAuth scopes (add these two — exact UI labels):

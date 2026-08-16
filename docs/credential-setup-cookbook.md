@@ -40,6 +40,9 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
    - Name / API Name: **`Headless360 MCP Client`** / `Headless360_MCP_Client`
    - Contact email: yours.
 2. **API (Enable OAuth Settings) → turn ON**, then set:
+   - **Flow Enablement — CHECK "Enable Authorization Code and Credentials Flow." 🔴 NONE are enabled by default.**
+     Miss this and the connect has no OAuth grant type — Claude can't complete auth (and the consumer-details page can
+     misbehave). MCP uses **authorization_code + PKCE** (per-user); do **NOT** enable JWT Bearer / Device / Token Exchange.
    - **Callback URL — enter BOTH, one per line** (this is the exact-match list the redirect is checked against):
      ```
      https://claude.ai/api/mcp/auth_callback
@@ -78,8 +81,12 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
    MCP (PKCE is wanted here) — confirm. *(The dialog does not appear in every org/UI version — if you don't get it,
    nothing is wrong.)*
 4. **Copy the Consumer Key** (Settings → OAuth Settings after save). This is the OAuth Client ID Claude uses.
-   - 🔴 Revealing it may trigger an identity-verification challenge; if it "times out," open the org fresh
-     (`sf org open --target-org <alias>`) and retry from a verified session.
+   - 🔴 **For MCP you need only the Consumer KEY (Client ID) — NOT the secret** (PKCE public client; "Require secret for
+     Web Server Flow" is off, so no secret is exchanged).
+   - 🔴 Revealing consumer details may trigger an identity-verification challenge, or fail with **"insufficient
+     privileges"** (seen on trial 161 orgs). Fixes: complete the emailed verification code; retry from a fresh
+     `sf org open --target-org <alias>` session; confirm your user has **"Manage Connected Apps."** If it persists on a
+     locked-down trial, flag a facilitator — you only need the **Key**, so this doesn't block the MCP connect.
 
 ### ✅ Verify A
 - `./scripts/04-mcp-connect-setup.sh --org <alias> --verify` reports the ECA present, **or** connect Claude and run a
