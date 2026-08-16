@@ -43,9 +43,13 @@ sf agent activate --api-name "$AGENT" --target-org "$ORG" --json >/dev/null 2>&1
   && pass "agent activated" \
   || warn "agent activate failed/soft — confirm in Agent Builder (publish must land first)"
 
-# 3) Permission set LAST — <agentAccesses> now resolves (Bot exists) + grants Order__c FLS + Order tab.
+# 3) Base permission set LAST — <agentAccesses> now resolves (Bot exists) + grants Order__c FLS + Order tab.
+#    Deploy ONLY Headless360_Workshop_Access — NOT the whole permissionsets/ dir. The React app's
+#    Headless360_React_App permset references the Headless360_OrderStatus CustomApplication, which is
+#    NOT in the base deploy (it ships via 07-deploy-react-bundle.sh); deploying the dir wholesale fails
+#    that permset and, being atomic, takes the base permset down with it. (Cold-start regression, fixed 2026-08-16.)
 echo "→ 3/3 deploying the permission set…"
-sf project deploy start --source-dir force-app/main/default/permissionsets --target-org "$ORG" \
+sf project deploy start --source-dir force-app/main/default/permissionsets/Headless360_Workshop_Access.permissionset-meta.xml --target-org "$ORG" \
   && pass "permission set deployed" \
   || warn "permset deploy failed — the Bot must be published (step 2) before <agentAccesses> resolves"
 
