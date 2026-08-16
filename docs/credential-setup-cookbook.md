@@ -53,11 +53,10 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
      - `Perform requests at any time (refresh_token, offline_access)`
      🔴 **Do NOT add `api`, `openid`, or anything else.** MCP wants `mcp_api` only — adding extra scopes (especially
      `openid`) can **break the connection**. More is not safer here.
-   - **Confirm "Enable Proof Key for Code Exchange (PKCE)" is ON** — the CLI loopback flow uses PKCE. *(May already
-     be on by default, or not appear as a separate toggle depending on org/UI version — confirm, don't assume you
-     must flip it.)*
-   - **Confirm "Require secret for Web Server Flow" and "Require secret for Refresh Token Flow" are UNchecked.**
-     *(Often already unchecked — this is a confirm step, not necessarily a change.)*
+   - **PKCE is ON and locked.** In the current UI, **"Require Proof Key for Code Exchange (PKCE)…" is checked and
+     cannot be unchecked** — leave it (PKCE is exactly what the CLI loopback flow needs). *(Nothing to flip.)*
+   - **Confirm "Require secret for Web Server Flow" is UNchecked.** *(Usually already unchecked — a confirm step, not a
+     change. Current UI may show only the Web Server Flow box; if a "Refresh Token Flow" secret box is present, leave it unchecked too.)*
    - **CHECK "Issue JSON Web Token (JWT)-based access tokens for named users." 🔴 THE #1 SILENT GOTCHA.**
      - **What it does:** makes the org mint the access token as a **signed JWT** instead of an opaque token. The Hosted
        MCP endpoint **requires a JWT-format bearer token** — so with this OFF, the OAuth handshake *succeeds* (you get a

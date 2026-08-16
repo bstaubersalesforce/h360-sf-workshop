@@ -136,16 +136,17 @@ cat <<EOF
 
  Then create the External Client App:
    Setup → External Client App Manager → New
-   • Label / API name:  $ECA_LABEL
+   • Label / API name:  $ECA_LABEL   ·   Contact email: yours (REQUIRED)
    • Enable OAuth:      ON
    • Callback URLs:     $MCP_CALLBACK_URL_WEB   (claude.ai web / desktop)
                         $MCP_CALLBACK_URL_CLI        (Claude Code CLI — loopback; one per line)
-   • OAuth scopes:      $MCP_OAUTH_SCOPES
-   • UNcheck both "Require secret for … Flow" boxes
-   • CHECK  "Enable PKCE"  (Proof Key for Code Exchange — the current Hosted-MCP ECA doc omits this,
-                            but the Claude Code CLI loopback flow uses PKCE; empirically required, validated 2026-07-22)
-   • CHECK  "Issue JWT-based access tokens for named users"   ← the gotcha
-   Save, then copy the Consumer Key (= OAuth Client ID).
+   • OAuth scopes (add these two — exact UI labels):
+       - "Access Salesforce hosted MCP Servers (mcp_api)"
+       - "Perform requests at any time (refresh_token, offline_access)"     [do NOT add api / openid]
+   • "Require secret for Web Server Flow": confirm UNchecked (usually already is)
+   • PKCE: "Require Proof Key for Code Exchange (PKCE)…" is ON and CAN'T be unchecked — leave it (PKCE is wanted)
+   • CHECK  "Issue JSON Web Token (JWT)-based access tokens for named users"   ← the #1 gotcha
+   Save (the button may say "Create"), then copy the Consumer Key (Settings → OAuth Settings) = OAuth Client ID.
 
  🔴 If MCP calls fail INVALID_AUTH_HEADER / INVALID_JWT_FORMAT → the JWT-token
     box is unchecked. If invalid_client_id → the app hasn't propagated; wait.
