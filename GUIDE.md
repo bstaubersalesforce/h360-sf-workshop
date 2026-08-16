@@ -246,14 +246,27 @@ does not require the agent** (MCP and the agent are parallel paths to the same S
    1. **Pick your client path** — both work because step 2 registered both callbacks:
       - **Claude Code CLI** (loopback, `localhost:8765/callback`) — no Claude-side admin toggle needed.
         Use this local MCP path if your Claude instance blocks web connectors.
-        🔴 **Launch Claude Code from the workshop project directory** (`headless360-workshop/`), not a parent folder.
-        The `h360-*` MCP servers are **project-scoped** in `~/.claude.json` — start from the wrong directory and `/mcp`
-        shows no Salesforce server at all (it isn't broken, it's just not in scope). `cd` into the project first.
+        🔴 **Launch Claude Code from the cloned repo directory** (`h360-sf-workshop/`), not a parent folder.
+        MCP servers you add are **project-scoped** in `~/.claude.json` — start from the wrong directory and `/mcp`
+        shows no Salesforce server at all (it isn't broken, it's just not in scope). `cd` into the repo first.
       - **claude.ai web / desktop** (`.../auth_callback`) — for participants on an unmanaged instance that allows connectors.
-   2. Add the server and authenticate. If auth doesn't complete on the first try, **re-run it after a short wait** before
-      assuming a config error — propagation lag makes the first attempt fail and the retry succeed.
+   2. **Add the server — supply your ECA Consumer Key as a STATIC `client_id`.** Salesforce Hosted MCP does **not**
+      support dynamic client registration, so a plain `claude mcp add … <url>` dead-ends with *"Incompatible auth server:
+      does not support dynamic client registration."* Pass the Consumer Key as `--client-id`, match `--callback-port` to
+      the ECA's registered loopback (**8765**), and use the **exact** endpoint — note the second `/platform/` segment
+      (trial/prod; a **sandbox/scratch** org inserts `/sandbox/` before `platform/headless-360`). **No secret** (public PKCE):
+      ```bash
+      claude mcp remove h360 2>/dev/null   # drop any prior DCR-attempt registration
+      claude mcp add --transport http --client-id <YOUR_CONSUMER_KEY> --callback-port 8765 \
+        h360 https://api.salesforce.com/platform/mcp/v1/platform/headless-360
+      ```
+      Then `/mcp` → `h360` → **Authenticate**. If auth doesn't complete first try, **re-run after a short wait**
+      (propagation lag). *(Validated key-only — no secret — on a fresh trial org, 2026-08-16.
+      Endpoint per the official Headless 360 MCP Server guide.)*
    3. **Run one real read** (e.g. `getUserInfo`, or ask Claude to read a record via `sobject-reads`). It should return
       your identity/data governed by your FLS/sharing. A "connected" indicator alone does **not** prove the flow works.
+      ⚠️ Claude prompts you to **approve each MCP tool call** (discover / describe / dispatch) — approve them (or pick
+      "always allow" to stop being asked for the session). Expected, not an error.
 5. **Try the `headless-360` four-tool workflow** — the Connect payoff moment:
    - **`discover`** — semantic search: "what can I do with accounts?" → returns matching operations
    - **`describe`** → pick one → full spec: APIs, params, dependencies, execution steps

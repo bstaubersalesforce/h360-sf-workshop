@@ -154,6 +154,12 @@ cat <<EOF
     If OAuth fails redirect_uri_mismatch → the callback you connected from isn't
     in the app's list; add BOTH URLs above (CLI needs the localhost:8765 one).
 
+ Then connect Claude Code (no DCR → pass the Consumer Key as a STATIC client_id; no secret):
+   cd <your cloned repo dir>     # MCP servers are project-scoped in ~/.claude.json
+   claude mcp add --transport http --client-id <Consumer Key> --callback-port 8765 h360 https://api.salesforce.com/platform/mcp/v1/platform/headless-360
+   → restart Claude, then /mcp → h360 → Authenticate → approve the tool prompts → ask "read order OR-1003"
+   (sandbox/scratch org: insert /sandbox/ before platform/headless-360)
+
  Verify when done:  ./scripts/04-mcp-connect-setup.sh --org $ORG --verify
 ──────────────────────────────────────────────────────────────────────────────
 EOF
