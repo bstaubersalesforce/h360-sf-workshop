@@ -71,11 +71,13 @@ App → **Settings → OAuth Settings**. Revealing the Key/Secret usually forces
 `sf org open --target-org <alias>`. **Client_credentials needs the secret.**
 
 ### 4. Mint a short-lived access token (client_credentials)
-Run this as **one line** (no `\` continuation — it breaks on copy-paste in some terminals):
+Run as **one line** (a `\` continuation breaks on paste), and **pipe through the extractor so you get ONLY the token**,
+not the whole JSON:
 ```bash
-curl -s -X POST "https://<your-domain>.my.salesforce.com/services/oauth2/token" -d grant_type=client_credentials -d client_id=<CONSUMER_KEY> -d client_secret=<CONSUMER_SECRET>
+curl -s -X POST "https://<your-domain>.my.salesforce.com/services/oauth2/token" -d grant_type=client_credentials -d client_id=<CONSUMER_KEY> -d client_secret=<CONSUMER_SECRET> | python3 -c 'import sys,json;print(json.load(sys.stdin)["access_token"])'
 ```
-Copy the `access_token` from the JSON.
+🔴 **Paste ONLY that `access_token` value into `VITE_ACCESS_TOKEN`** — not the whole `{...}` JSON. Pasting the JSON blob
+makes `proxy.mjs` send `Bearer {…}` → `startSession 401 "Invalid token"`.
 
 ### 5. Configure `web/.env`
 ```bash
