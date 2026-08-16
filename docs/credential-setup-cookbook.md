@@ -140,7 +140,9 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
      Agentforce Default Agent), **not** a bare API-Only user. **Confirm the working license+permset combination on
      the target org and record it here** before locking the flow. Using an **admin** works but can hit MFA on a
      stale session and gack the token request (fallback, not the pattern). Confirm the user is active.
-5. **Copy the Consumer Key + Consumer Secret** (fresh session — same verification caveat as A).
+5. **Copy the Consumer Key + Consumer Secret.** 🔴 Revealing them often forces a **re-login / identity-verification**
+   (on trial orgs it can surface as "insufficient privileges") — complete the emailed code, or retry from a fresh
+   `sf org open --target-org <alias>` session. Client_credentials **needs the secret** (unlike the MCP ECA in §A).
 
 ### ✅ Verify B (mint a token — local terminal, keeps the secret off any transcript)
 ```bash
