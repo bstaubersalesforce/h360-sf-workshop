@@ -106,6 +106,8 @@ Open **http://localhost:5173** → ask for **OR-1003** → the status card rende
 agent access; `400 "Invalid user ID"` → `bypassUser` (handled in `src/agentApi.js`).
 - `node proxy.mjs` errors **`EADDRINUSE :8787`** → a previous proxy is still running; kill it and re-run:
   `lsof -ti tcp:8787 | xargs kill`.
+- **Stop / free both ports** — Ctrl-C each terminal, or force-release (proxy 8787 + Vite 5173–5175):
+  `lsof -ti tcp:8787,5173,5174,5175 | xargs kill` (add `-9` if a port won't release).
 
 ## Files
 
