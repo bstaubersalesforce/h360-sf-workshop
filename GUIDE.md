@@ -350,10 +350,12 @@ UI Bundle + its surfacing **CustomApplication** + the **`Headless360_React_App`*
 App Launcher → "Headless360 Order Status"** → the React app renders with the embedded **Order Assistant** chat; ask
 "status of order OR-1003" → the same Exception / "Approve rebooking" from Module 2, now in a custom React shell in the org.
 
-🔴 **Checkpoint 4a:** the app appears in App Launcher and the embedded chat answers on OR-1003. A **blank chat / "Order
-Assistant unavailable"** → `VITE_AGENT_ID` was built for a different org (or not set) — re-run `07-deploy-react-bundle.sh`
-against **this** org (it re-bakes the agent id). No tokens involved — the in-org client runs as you.
-*(Build + deploy + App-Launcher visibility + chat validated on a clean trial-EE org 2026-08-15.)*
+🔴 **Checkpoint 4a:** the app appears in App Launcher and the embedded chat answers on OR-1003. ⏳ **Expect a cold start** —
+the app's first load *and* the agent's first reply (here or in Module 2) can take several seconds to warm up; wait for it,
+it's **not** a failure, and subsequent calls are fast. A **persistent blank chat / "Order Assistant unavailable"** (not
+just slow) → `VITE_AGENT_ID` was built for a different org (or not set) — re-run `07-deploy-react-bundle.sh` against
+**this** org (it re-bakes the agent id). No tokens involved — the in-org client runs as you.
+*(End-to-end validated cold on fresh EE trials 2026-08-15 and 2026-08-16.)*
 
 ### 4b — Secondary (working): the external Agent-API client — "fully headless"
 
