@@ -104,6 +104,8 @@ Open **http://localhost:5173** → ask for **OR-1003** → the status card rende
 🔴 **Token expires** (client_credentials tokens are short-lived). On a `401`/empty response, **re-mint** (step 4) into
 `web/.env` and **restart `node proxy.mjs`** (it reads `.env` at startup). `412` on session start → the Run-As user lacks
 agent access; `400 "Invalid user ID"` → `bypassUser` (handled in `src/agentApi.js`).
+- `node proxy.mjs` errors **`EADDRINUSE :8787`** → a previous proxy is still running; kill it and re-run:
+  `lsof -ti tcp:8787 | xargs kill`.
 
 ## Files
 
