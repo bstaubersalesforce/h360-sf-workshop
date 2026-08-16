@@ -37,33 +37,71 @@ browser (React)  ──►  proxy.mjs :8787  ──►  api.salesforce.com/einst
 - Note the **120-second Agent API timeout** — keep actions fast.
 - ✅ Validated end-to-end 2026-07-23 against agent `Headless360_Order_Assistant` (start → send → receive → end).
 
-## Run (two terminals)
+## Full setup — step by step (end to end)
 
+**Two terminals + a two-part ECA.** Full ECA click-by-click is in
+[docs/credential-setup-cookbook.md §B](../docs/credential-setup-cookbook.md#b-agent-api-external-client-app-module-4);
+the essential path:
+
+### 1. Create the Agent-API External Client App (SEPARATE from the MCP one)
+Setup → **External Client App Manager → New External Client App**.
+- **Basic Info:** Name `Headless360 Agent API`; **Contact email** (required).
+- **API (Enable OAuth Settings) → ON:**
+  - **Callback URL:** `https://<your-domain>.my.salesforce.com/services/oauth2/callback` (required field even though
+    client_credentials never uses it)
+  - **OAuth scopes** (exact UI labels — **NOT** `mcp_api`):
+    - Manage user data via APIs **(api)**
+    - Access chatbot services **(chatbot_api)**
+    - Access the Salesforce API Platform **(sfap_api)**
+    - Perform requests at any time **(refresh_token, offline_access)**
+  - **CHECK** "Issue JSON Web Token (JWT)-based access tokens for named users"
+  - PKCE is locked ON — **leave it** (it only affects the browser auth-code flow, not client_credentials)
+- **Create.**
+
+### 2. 🔴 Enable the flow + set Run-As — ONLY after the app is created (Policies tab)
+The **Run As** field doesn't exist in the creation wizard — it appears only after the app is saved. Open the finished
+app → **Policies → OAuth Policies → Edit**:
+- **Enable Client Credentials Flow:** ON
+- **Run As (Username):** a user that can call the API **and** run the agent — your admin user works (it holds
+  `Headless360_Workshop_Access` → agent access). **Save.**
+
+### 3. Copy the Consumer Key + Secret (🔴 you'll likely have to re-login)
+App → **Settings → OAuth Settings**. Revealing the Key/Secret usually forces a **re-login / identity verification**
+(on trial orgs it can surface as "insufficient privileges") — complete the emailed code, or reopen fresh with
+`sf org open --target-org <alias>`. **Client_credentials needs the secret.**
+
+### 4. Mint a short-lived access token (client_credentials)
+Run this as **one line** (no `\` continuation — it breaks on copy-paste in some terminals):
 ```bash
-cp .env.example .env      # set the values below (incl. a fresh access token)
+curl -s -X POST "https://<your-domain>.my.salesforce.com/services/oauth2/token" -d grant_type=client_credentials -d client_id=<CONSUMER_KEY> -d client_secret=<CONSUMER_SECRET>
+```
+Copy the `access_token` from the JSON.
+
+### 5. Configure `web/.env`
+```bash
+cp .env.example .env      # then set:
+#   VITE_SF_MYDOMAIN=https://<your-domain>.my.salesforce.com
+#   VITE_AGENT_ID=<Employee Agent BotDefinition Id, 0Xx…>
+#   VITE_CLIENT_ID=<CONSUMER_KEY>
+#   VITE_ACCESS_TOKEN=<access_token from step 4>
+#   SF_CLIENT_SECRET=<CONSUMER_SECRET>
+```
+
+### 6. Run — TWO terminals (both from `web/`)
+```bash
 npm install               # first time only
 
-# Terminal 1 — the backend proxy (holds the token, forwards to the Agent API)
+# Terminal 1 — backend proxy (holds the token, forwards to the Agent API). LEAVE RUNNING.
 node proxy.mjs            # → http://localhost:8787
 
 # Terminal 2 — the React app
-npm run dev               # → http://localhost:5173  → click "Ask the agent"
+npm run dev               # → http://localhost:5173
 ```
+Open **http://localhost:5173** → ask for **OR-1003** → the status card renders.
 
-`.env.example`:
-```
-VITE_SF_MYDOMAIN=https://<your-domain>.my.salesforce.com
-VITE_AGENT_ID=<your Employee Agent id>
-VITE_CLIENT_ID=<External Client App consumer key>
-# Token acquisition: use your OAuth flow. For the lab, mint a short-lived client_credentials
-# token and paste it here — proxy.mjs reads it and injects it server-side (never sent to the browser):
-#   curl -s -X POST "$VITE_SF_MYDOMAIN/services/oauth2/token" \
-#     -d grant_type=client_credentials -d client_id=<key> -d client_secret=<secret>
-VITE_ACCESS_TOKEN=<short-lived access token for the demo>
-```
-
-🔴 **Token expires** (client_credentials tokens are short-lived). On a `401`/empty response, mint a fresh one
-into `.env` and **restart `node proxy.mjs`** (it reads `.env` at startup).
+🔴 **Token expires** (client_credentials tokens are short-lived). On a `401`/empty response, **re-mint** (step 4) into
+`web/.env` and **restart `node proxy.mjs`** (it reads `.env` at startup). `412` on session start → the Run-As user lacks
+agent access; `400 "Invalid user ID"` → `bypassUser` (handled in `src/agentApi.js`).
 
 ## Files
 
