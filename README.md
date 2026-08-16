@@ -45,10 +45,18 @@ is the **[tool reference table in GUIDE Module 0](./GUIDE.md#tool-reference-inst
 
 ## Quick start
 
-1. Claim + open your workshop org via OrgFarm (see **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**).
-2. `./scripts/06-org-onboard.sh --org <your-alias>` — deploys the capability, assigns access, seeds data.
-3. `./scripts/smoke.sh --org <your-alias>` — confirms you're ready to build.
-4. Follow **[GUIDE.md](./GUIDE.md)** module by module. This repo is your authoritative guide.
+1. **Claim your org** via OrgFarm (event code from your facilitator) — see **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — then sign in the CLI:
+   ```bash
+   sf org login web --alias <your-alias>
+   ```
+2. **Clone + onboard** (run one at a time):
+   ```bash
+   git clone https://github.com/bstaubersalesforce/h360-sf-workshop.git
+   cd h360-sf-workshop
+   ./scripts/06-org-onboard.sh --org <your-alias>    # deploy + publish agent + permset + seed hero data
+   ./scripts/smoke.sh --org <your-alias>             # confirm you're build-ready
+   ```
+3. Follow **[GUIDE.md](./GUIDE.md)** module by module — this repo is your authoritative guide.
 
 ## Workshop flow
 

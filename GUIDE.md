@@ -41,14 +41,21 @@ for the Dreamforce showcase. That's the reusable skill partners take home.
 > (deploy + permset + hero data + smoke test), (4) verify. The steps below are the underlying detail.
 
 1. Claim your **workshop org** via OrgFarm — [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup),
-   **event code from your facilitator** (template 161) — then `sf org login web --alias <your-alias>`.
+   **event code from your facilitator** (template 161). Then authenticate the CLI (replace `<your-alias>` with a short name
+   you'll reuse, e.g. `myorg`):
+   ```bash
+   sf org login web --alias <your-alias>
+   ```
 2. Install **Claude Code** + the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins.
    - `agentforce-adlc` — build/preview/test/deploy the agent and its actions.
    - `sf-mcp-partner-toolkit` — scaffold/deploy/diagnose MCP integration (used in Module 3, Connect).
-3. Clone this repo, then:
+3. **Clone the kit and set up.** Open a terminal, go to the folder where you keep code (e.g. `~/claude-projects`), then
+   run these one at a time:
    ```bash
-   cp .env.example .env          # set ORG_ALIAS
-   ./scripts/00-preflight.sh --org <alias>
+   git clone https://github.com/bstaubersalesforce/h360-sf-workshop.git
+   cd h360-sf-workshop
+   cp .env.example .env          # then open .env and set  ORG_ALIAS=<your-alias>
+   ./scripts/00-preflight.sh --org <your-alias>
    ```
    Expected: `sf` present, org reachable, prereq reminders printed.
 

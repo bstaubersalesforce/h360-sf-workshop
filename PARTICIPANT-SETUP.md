@@ -4,8 +4,16 @@ Each participant self-provisions **their own org** from OrgFarm, then gets it bu
 ~10 minutes. Step 1 claims the org (self-serve); step 2 verifies Agentforce; step 3 is one CLI
 command; step 4 is a quick check.
 
-> Prereqs on your laptop (from the pre-work email): **Salesforce CLI (`sf`)**, **Node.js**,
-> **Claude Code**. Clone this repo and `cd` into it before step 3.
+> **Laptop prereqs** (from the pre-work email, installed *before* you arrive): **Salesforce CLI (`sf`)**,
+> **Node.js**, **Claude Code**.
+
+**Get the kit** — open a terminal, go to the folder where you keep code (e.g. `~/claude-projects`), and clone this
+repo (do this before Step 3):
+
+```bash
+git clone https://github.com/bstaubersalesforce/h360-sf-workshop.git
+cd h360-sf-workshop
+```
 
 ---
 
@@ -78,11 +86,13 @@ Builder response, and the Module 3 MCP/ECA + Module 5 Slack steps.
 ## After setup — the Module 3 build (guided in-room, not scripted)
 
 These are the workshop's teaching steps — you'll do them together during the build:
-- **Activate Hosted MCP servers + create the MCP External Client App:**
-  `./scripts/04-mcp-connect-setup.sh --org myorg` prints an exact-values guided card
-  (`--verify` confirms). The JWT-token toggle is the one gotcha.
+- **Activate Hosted MCP servers + create the MCP External Client App** — this prints an exact-values guided card:
+  ```bash
+  ./scripts/04-mcp-connect-setup.sh --org myorg       # add --verify after you create the ECA
+  ```
+  The JWT-token toggle is the one gotcha.
 - **Smoke-test the agent:** in Agent Builder (or Slack once connected), ask
   **"status of order OR-1003"** → it should return the real record via the `OrderStatusSkill`.
 
-Full detail: [GUIDE.md](./GUIDE.md) Modules 0–6 · troubleshooting in
+Full detail: [GUIDE.md](./GUIDE.md) Modules 0–8b · troubleshooting in
 [docs/credential-checklist-card.md](./docs/credential-checklist-card.md).
