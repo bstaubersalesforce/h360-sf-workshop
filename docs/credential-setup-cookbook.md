@@ -117,10 +117,10 @@ conflict (one is per-user, one is server-to-server). Two ECAs, always.
      not add `openid`.
    - **UNcheck** "Require secret for Web Server Flow" + "Require secret for Refresh Token Flow".
    - **CHECK "Issue JWT-based access tokens for named users."**
-3. **🔴 The Confirm-and-Lock PKCE trap.** On save, the **"Confirm and Lock Security Controls"** dialog defaults **PKCE =
-   ON and Locked**. For client_credentials (no browser), you want PKCE **OFF**. **Click Cancel**, go back into the app's
-   OAuth settings, **turn OFF "Require Proof Key for Code Exchange,"** then save/confirm. Locking with PKCE on forces a
-   Salesforce Support case to undo.
+3. **PKCE is locked ON — leave it (harmless here).** In the current UI, "Require Proof Key for Code Exchange (PKCE)" is
+   **checked and can't be unchecked** ("To change this required setting, contact Support"). That's fine: PKCE only applies
+   to the browser **authorization_code** flow — the **client_credentials** flow (no browser) ignores it. *(Earlier guidance
+   to disable PKCE is obsolete — the UI no longer allows it, and client_credentials doesn't need it turned off.)*
 4. **Set the flow + Run-As user.** 🔴 **This is on the finished app's Policies tab — NOT in the creation wizard.**
    After the app is created: open the app → **Policies** tab → **OAuth Policies** → **Edit**. (The "Enable Client
    Credentials Flow" toggle is here too — Run-As is set on this same Policies screen, *not* where you added scopes.)
