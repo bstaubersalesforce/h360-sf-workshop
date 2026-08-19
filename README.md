@@ -8,12 +8,15 @@ This kit follows a **three-phase technical arc** — **Educate → Reference Bui
 — so each participant leaves with the mental model, a proven cross-surface pattern, and a working 
 reference **Skill forked into a POV of their own capability**.
 
-## 👉 Start here: [**GUIDE.md**](./GUIDE.md)
+## 👉 Start here: [**OVERVIEW.md**](./OVERVIEW.md)
 
-The detailed, module-by-module build lives in **[GUIDE.md](./GUIDE.md)**. Everything below is orientation.
+The tech track is a navigable, page-per-module kit. Everything below is orientation.
 
+- **The map / table of contents:** **[OVERVIEW.md](./OVERVIEW.md)** — the phase→module list; start here.
+- **Get your laptop + org ready:** **[docs/setup.md](./docs/setup.md)** — pre-work (🍎 Mac / 🪟 Windows) then org provisioning. Do this first.
+- **When something breaks:** **[docs/ISSUES.md](./docs/ISSUES.md)** — the single troubleshooting page (copy-paste, incognito, OS, per-surface gotchas; the credential setup for the two ECAs + Slack token now lives inline in Modules 3/4/5).
+- **Per-module build:** **[docs/modules/](./docs/modules/)** — one page each, Module 0 → 8b + Showcase.
 - **Hands-on build/deploy for the four surfaces** (concrete commands, per-surface): **[docs/build-and-deploy.md](./docs/build-and-deploy.md)**.
-- **Credential setup (two ECAs + Slack token), step-by-step with every gotcha**: **[docs/credential-setup-cookbook.md](./docs/credential-setup-cookbook.md)** — the highest-friction 30 min; read before Modules 2/4/5.
 
 
 ## What you're building
@@ -33,19 +36,19 @@ Prescribed AI tool: **Claude Code** (Agentforce Vibes = documented alternative +
 
 Your workshop org (**OrgFarm template 161**) is pre-configured with: Agentforce + Employee Agent; Hosted MCP + External Client App; 
 Agent API; Lightning Experience for the in-conversation card. A **Slack workspace connection is optional — available on request** (5–7 shared Slack orgs will be available for teams that want to build the Slack surface). The setup process is documented in 
-**[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)**.
+**[setup.md](./docs/setup.md)**.
 
 - **Salesforce CLI** (`sf`) — https://developer.salesforce.com/tools/salesforcecli
-- **Your own workshop org**, self-provisioned via **OrgFarm** — go to [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup), enter the workshop **event code** (provided by your facilitator; template 161, pre-configured for Headless 360), then `sf org login web --alias <your-alias>`. Agentforce should already be on; **verify** it before deploying the kit — see [PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md).
-- **Claude Code**, with the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins (installed in GUIDE Module 0).
+- **Your own workshop org**, self-provisioned via **OrgFarm** — go to [orgfarm.salesforce.com/signup](https://orgfarm.salesforce.com/signup), enter the workshop **event code** (provided by your facilitator; template 161, pre-configured for Headless 360), then `sf org login web --alias <your-alias>`. Agentforce should already be on; **verify** it before deploying the kit — see [setup.md](./docs/setup.md).
+- **Claude Code**, with the **`agentforce-adlc`** and **`sf-mcp-partner-toolkit`** plugins (installed in [setup.md](./docs/setup.md#add-the-two-claude-code-plugins)).
 - (Agent API surface) **Node.js** to run the `web/` sample client.
 
 The full tool list — every CLI, plugin, and skill with version, install command, verify step, and which module uses it —
-is the **[tool reference table in GUIDE Module 0](./GUIDE.md#tool-reference-install-once-verify-before-the-lab)**.
+is the **[tool reference](./docs/reference/tool-reference.md)**.
 
 ## Quick start
 
-1. **Claim your org** via OrgFarm (event code from your facilitator) — see **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — then sign in the CLI:
+1. **Claim your org** via OrgFarm (event code from your facilitator) — see **[docs/setup.md](./docs/setup.md)** — then sign in the CLI:
    ```bash
    sf org login web --alias <your-alias>
    ```
@@ -56,26 +59,28 @@ is the **[tool reference table in GUIDE Module 0](./GUIDE.md#tool-reference-inst
    ./scripts/06-org-onboard.sh --org <your-alias>    # deploy + publish agent + permset + seed hero data
    ./scripts/smoke.sh --org <your-alias>             # confirm you're build-ready
    ```
-3. Follow **[GUIDE.md](./GUIDE.md)** module by module — this repo is your authoritative guide.
+3. Follow **[OVERVIEW.md](./OVERVIEW.md)** module by module — this repo is your authoritative guide.
 
 ## Workshop flow
 
 The workshop follows a three-phase arc:
 
-1. **Educate** — concept fluency + shared language (Headless 360 architecture, [Three-Tier framework](./docs/three-tier-framework.md), surface portfolio).
+1. **Educate** — concept fluency + shared language (Headless 360 architecture, [Three-Tier framework](./docs/reference/three-tier-framework.md), surface portfolio).
 2. **Reference Build** — hands-on modules building one Employee Agent + one Skill across four surfaces 
-   (MCP/Claude, Agentforce, Slack, React/Agent API). Guided, step-by-step in **[GUIDE.md](./GUIDE.md)**.
+   (MCP/Claude, Agentforce, Slack, React/Agent API). Guided, step-by-step in **[the module pages](./docs/modules/)**.
 3. **Apply to POC** — fork the reference Skill into your own capability, package it, and plan your next steps.
 
-All modules are documented in **[GUIDE.md](./GUIDE.md)** with 🔴 checkpoints where silent failures happen.
+All modules are documented in **[the module pages](./docs/modules/)** with 🔴 checkpoints where silent failures happen.
 
 ## Kit contents
 
-- **[GUIDE.md](./GUIDE.md)** — participant modules, top-to-bottom, with 🔴 checkpoints where silent failures happen.
-- **[PARTICIPANT-SETUP.md](./PARTICIPANT-SETUP.md)** — per-participant org setup runbook.
-- **[docs/](./docs/)** — the hands-on **[build & deploy guide](./docs/build-and-deploy.md)**, the gotcha-by-gotcha
-  **[credential-setup cookbook](./docs/credential-setup-cookbook.md)** + printable **[checklist card](./docs/credential-checklist-card.md)**, 
-  and the **[Three-Tier framework](./docs/three-tier-framework.md)**. Upstream source docs live in **[docs/sources/](./docs/sources/)**.
+- **[OVERVIEW.md](./OVERVIEW.md)** — the tech-track map / table of contents.
+- **[docs/setup.md](./docs/setup.md)** — pre-work (Mac/Windows) + org provisioning runbook.
+- **[docs/modules/](./docs/modules/)** — one page per module (0 → 8b + Showcase), each with 🔴 checkpoints; credential setup for the two ECAs + Slack token is inline in Modules 3/4/5.
+- **[docs/ISSUES.md](./docs/ISSUES.md)** — the single troubleshooting page (copy-paste, incognito, OS, per-surface symptom→fix).
+- **[docs/](./docs/)** — the hands-on **[build & deploy guide](./docs/build-and-deploy.md)**, the printable
+  **[checklist card](./docs/reference/credential-checklist-card.md)**, and the
+  **[Three-Tier framework](./docs/reference/three-tier-framework.md)**.
 - **`sfdx/`** — the reference build: the **`Order__c`** demo object (+ 5 hero records), the `@InvocableMethod` Skill
   (queries `Order__c`), the Employee Agent as an **Agent Script bundle** (deploy/publish, not UI-authored), the Slack
   custom action + Custom External Credential wiring, the `LightningTypeBundle` CLT, permission set.
@@ -85,7 +90,7 @@ All modules are documented in **[GUIDE.md](./GUIDE.md)** with 🔴 checkpoints w
 
 ## Resources (pre-reading)
 
-Shared with participants before Day 1 (also listed in GUIDE Module 0):
+Shared with participants before Day 1 (also listed in Module 0):
 
 - [Headless 360 MCP Server Guide](https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/headless-360-mcp.html) — the four-tool interface (**Discover → Describe → Dispatch / Dispatch-Read-Only**); requires **API v67.0+**, an External Client App with the `mcp_api` scope ("Access Salesforce hosted MCP Servers"), per-user OAuth.
 - [Introduction to Salesforce Headless 360](https://trailhead.salesforce.com/content/learn/modules/salesforce-headless-360-quick-look) — Trailhead quick-look module (GA)

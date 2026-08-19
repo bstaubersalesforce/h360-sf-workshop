@@ -53,7 +53,7 @@ Agentforce supports **one modality at a time**; in voice mode, rich components s
 ## How the workshop applies it
 
 This framework runs across all three phases of the technical arc (**Educate → Reference Build → Apply-to-POC**, the
-phases in [GUIDE.md](../GUIDE.md)):
+phases in [OVERVIEW.md](../../OVERVIEW.md)):
 - **Educate (Phase 1)** teaches the framework — and each partner maps **2–3 of their own workflows** to a tier (the
   ideation seed that feeds Phase 3).
 - **Reference Build (Phase 2)** *applies* it — the same Skill is rendered as Tier-2 (Slack Block Kit card), Tier-1/2

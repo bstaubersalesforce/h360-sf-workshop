@@ -1,7 +1,7 @@
 # Credential Checklist Card — one page, tick as you go
 
 Print one per participant / per table. This is the **verify-only** companion to the
-[credential-setup-cookbook](./credential-setup-cookbook.md) — do the setup there, tick the ✅ checks here.
+[the module pages (3/4/5)](../modules/) — do the setup there, tick the ✅ checks here.
 Replace `<alias>`, `<org>` (My Domain host), `<xoxb>`, `<KEY>`/`<SECRET>` with your values.
 
 **Participant / org: ______________________**
@@ -90,4 +90,4 @@ npm run dev                  # terminal 2 :5173 → "Ask the agent"
 
 ---
 
-**All ticked → participant is fully set up.** Gotcha detail + fixes: [credential-setup-cookbook.md](./credential-setup-cookbook.md).
+**All ticked → participant is fully set up.** Gotcha detail + fixes: [ISSUES.md](../ISSUES.md).

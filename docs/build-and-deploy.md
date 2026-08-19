@@ -1,11 +1,11 @@
 # Build & Deploy Guide — the four surfaces
 
 > 🔑 **The credential setups (two ECAs + the Slack token) are gotcha-dense — follow the step-by-step
-> [credential-setup-cookbook.md](./credential-setup-cookbook.md) for those.** This guide covers the surrounding build.
+> [ISSUES.md](./ISSUES.md) for those.** This guide covers the surrounding build.
 
 Attendee-facing, hands-on build/deploy for the Headless 360 reference apps. Assumes a **pre-configured participant
 org** (Agentforce + Hosted MCP + reference build deployed). A **Slack workspace connection is optional (on request)** —
-5–7 shared Slack orgs will be available for teams that want the Slack surface. Pairs with [GUIDE.md](../GUIDE.md) (module narrative).
+5–7 shared Slack orgs will be available for teams that want the Slack surface. Pairs with [OVERVIEW.md](../OVERVIEW.md) (module narrative).
 
 > **Note on ordering:** this is a **deploy-dependency** guide (Skill/agent foundation first, then surfaces) — it does
 > **not** match the GUIDE's participant *teaching* order (capability-first, reordered 2026-07-29). In the GUIDE the
@@ -127,7 +127,7 @@ proxy** (`web/proxy.mjs`) that holds the token server-side and forwards to the A
   **+ "Access Agentforce Default Agent"** (formerly "Use Agentforce Default Agent"), authorized to run the agent.
   🔴 **License caveat:** a bare **API-Only integration user may NOT support the Agentforce agent-use permission** — use a
   license that supports both API integration and Agentforce agent use, and confirm on the target org. (Old "Access
-  Service Einstein" reference = unconfirmed/possibly obsolete.) Full detail: [credential-setup-cookbook.md §B step 4](./credential-setup-cookbook.md#b-agent-api-external-client-app-module-5).
+  Service Einstein" reference = unconfirmed/possibly obsolete.) Full detail: [credential-setup-cookbook.md §B step 4](./modules/04-react-app.md#set-up-the-agent-api-eca-a-separate-app-from-the-mcp-one).
   Enable "Issue JWT-based access tokens for named users". Deselect the "Require secret for Web Server/Refresh Token
   Flow" boxes + PKCE. (If a "Confirm and Lock" dialog appears, turn PKCE OFF before locking.)
 - Callback URL is required even for client_credentials: `https://<your-org>.my.salesforce.com/services/oauth2/callback`.
