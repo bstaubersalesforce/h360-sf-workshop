@@ -66,7 +66,7 @@ browser (React)  ──►  proxy.mjs :8787  ──►  api.salesforce.com/einst
 ## Full setup — step by step (end to end)
 
 **Two terminals + a two-part ECA.** Full ECA click-by-click is in
-[docs/credential-setup-cookbook.md §B](../docs/modules/04-react-app.md#set-up-the-agent-api-eca-a-separate-app-from-the-mcp-one);
+[Module 4 — Custom UI §4b](../docs/modules/04-custom-ui.md#set-up-the-agent-api-eca-a-separate-app-from-the-mcp-one);
 the essential path:
 
 ### 1. Create the Agent-API External Client App (SEPARATE from the MCP one)

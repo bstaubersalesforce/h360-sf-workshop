@@ -85,7 +85,7 @@ export function AgentforceChat() {
     }
 
     // In-org mode: derive salesforceOrigin from SFDC_ENV or window.location
-    // Source from SFDC_ENV.orgUrl (e.g., "https://orgfarm-55669dd59e.lightning.force.com")
+    // Source from SFDC_ENV.orgUrl (e.g., "https://orgfarm-XXXXX.lightning.force.com")
     // and transform .lightning.force.com → .my.salesforce.com.
 
     const sfdcEnv = (globalThis as any).SFDC_ENV;

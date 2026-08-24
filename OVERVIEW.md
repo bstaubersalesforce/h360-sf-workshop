@@ -27,7 +27,7 @@ The thesis, made literal by the flow: **build the capability once, reach it from
 | [2 — The Capability: deploy + tour](./docs/modules/02-capability.md) | Tour the one pre-built capability; run one query | 30 min | OR-1003 query returns the real record + card |
 | [3 — Connect: Claude over Hosted MCP 🔴](./docs/modules/03-connect-claude-mcp.md) | Reach the org from Claude over MCP | 45 min | A real read returns your FLS-governed data |
 | [3a — Assemble a custom MCP server](./docs/modules/03a-custom-mcp-server.md) 🟡 | Compose your own MCP server in Setup | 20 min | Claude reaches your custom server, returns OR-1003 |
-| [4 — React app on the capability](./docs/modules/04-react-app.md) | Same capability in a custom React app (in-org + Agent API) | 45 min | The React card shows the OR-1003 status |
+| [4 — Custom UI: React & HXL](./docs/modules/04-custom-ui.md) | Custom UI on the agent — React apps + HXL widgets, in-org & external | 60 min | React card shows OR-1003 (in-org + external) and an HXL widget deploys + renders |
 | [5 — Slack (Block Kit card) 🔴](./docs/modules/05-slack.md) 🟡 | Same Skill rendered as a Slack Block Kit card | 30 min | A card posts to the channel |
 | [6 — ChatGPT over MCP](./docs/modules/06-chatgpt.md) 🟡 | Reach the same org/Skill from ChatGPT | 30 min | ChatGPT returns real org data |
 

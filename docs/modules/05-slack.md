@@ -44,4 +44,4 @@ Run the agent (or fire the action) with a seeded order (`OR-1003`) → a Block K
 
 ---
 
-[← Module 4](./04-react-app.md) · [Overview](../../OVERVIEW.md) · [Module 6 →](./06-chatgpt.md)
+[← Module 4](./04-custom-ui.md) · [Overview](../../OVERVIEW.md) · [Module 6 →](./06-chatgpt.md)

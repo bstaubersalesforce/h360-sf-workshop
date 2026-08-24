@@ -38,7 +38,7 @@ sf project deploy start --source-dir $DIRS --target-org "$ORG" || { fail "metada
 echo "→ 2/3 publishing + activating the agent…"
 sf agent publish authoring-bundle --api-name "$AGENT" --target-org "$ORG" --json >/dev/null \
   && pass "agent published (Bot + planner compiled)" \
-  || warn "agent publish failed — inspect: sf agent publish authoring-bundle --api-name $AGENT --target-org $ORG --json"
+  || { fail "agent publish failed — inspect: sf agent publish authoring-bundle --api-name $AGENT --target-org $ORG --json"; exit 1; }
 sf agent activate --api-name "$AGENT" --target-org "$ORG" --json >/dev/null 2>&1 \
   && pass "agent activated" \
   || warn "agent activate failed/soft — confirm in Agent Builder (publish must land first)"
@@ -51,7 +51,7 @@ sf agent activate --api-name "$AGENT" --target-org "$ORG" --json >/dev/null 2>&1
 echo "→ 3/3 deploying the permission set…"
 sf project deploy start --source-dir force-app/main/default/permissionsets/Headless360_Workshop_Access.permissionset-meta.xml --target-org "$ORG" \
   && pass "permission set deployed" \
-  || warn "permset deploy failed — the Bot must be published (step 2) before <agentAccesses> resolves"
+  || { fail "permset deploy failed — the Bot must be published (step 2) before <agentAccesses> resolves"; exit 1; }
 
 # 4) Assign the permission set to the running user (deploying it does NOT assign it).
 #    Grants Order__c FLS (the Apex tests + the Skill's USER_MODE query need it) + Order tab visibility.

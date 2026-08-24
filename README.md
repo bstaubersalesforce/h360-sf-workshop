@@ -25,10 +25,11 @@ A partner-neutral reference **Employee Agent** with a single `@InvocableMethod` 
 (order/case status + one action), rendered in-conversation and available via the Agent API —
 the **hands-on build every partner completes**, then tailors into a POV of their own capability.
 
-**HXL "render everywhere" = the vision demo**. It's the
-aspirational headline — one experience rendering natively across Slack, Agentforce, Claude,
-mobile — that the reference Skill is the on-ramp to. The kit does **not** ask
-participants to build the HXL path live (it depends on an internal dev environment).
+**HXL "render everywhere."** The aspirational headline — one experience rendering natively
+across Slack, Agentforce, Claude, mobile. Module 4c has participants **build it as far as it
+goes today**: deploy a real `UiWidgetBundle`, inspect it in the in-org HXL Widget Viewer, and
+render the same definition in the external React side-by-side — no gated dependency. What stays
+**vision** is a platform **auto-render of that widget live in a channel** (ChatGPT/Slack/Agentforce).
 
 Prescribed AI tool: **Claude Code** (Agentforce Vibes = documented alternative + "what's next" demo).
 

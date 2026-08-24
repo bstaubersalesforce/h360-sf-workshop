@@ -127,7 +127,7 @@ proxy** (`web/proxy.mjs`) that holds the token server-side and forwards to the A
   **+ "Access Agentforce Default Agent"** (formerly "Use Agentforce Default Agent"), authorized to run the agent.
   🔴 **License caveat:** a bare **API-Only integration user may NOT support the Agentforce agent-use permission** — use a
   license that supports both API integration and Agentforce agent use, and confirm on the target org. (Old "Access
-  Service Einstein" reference = unconfirmed/possibly obsolete.) Full detail: [credential-setup-cookbook.md §B step 4](./modules/04-react-app.md#set-up-the-agent-api-eca-a-separate-app-from-the-mcp-one).
+  Service Einstein" reference = unconfirmed/possibly obsolete.) Full detail: [credential-setup-cookbook.md §B step 4](./modules/04-custom-ui.md#set-up-the-agent-api-eca-a-separate-app-from-the-mcp-one).
   Enable "Issue JWT-based access tokens for named users". Deselect the "Require secret for Web Server/Refresh Token
   Flow" boxes + PKCE. (If a "Confirm and Lock" dialog appears, turn PKCE OFF before locking.)
 - Callback URL is required even for client_credentials: `https://<your-org>.my.salesforce.com/services/oauth2/callback`.

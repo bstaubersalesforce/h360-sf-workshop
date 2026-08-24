@@ -27,4 +27,4 @@ From Claude, `discover` on your custom server should list your composed tools (t
 
 ---
 
-[← Module 3](./03-connect-claude-mcp.md) · [Overview](../../OVERVIEW.md) · [Module 4 →](./04-react-app.md)
+[← Module 3](./03-connect-claude-mcp.md) · [Overview](../../OVERVIEW.md) · [Module 4 →](./04-custom-ui.md)
