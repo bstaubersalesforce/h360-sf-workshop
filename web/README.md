@@ -6,6 +6,32 @@ A minimal reference React client that embeds the reference Employee Agent's Skil
 > **Reference, not a product.** This is deliberately dependency-light: it shows the Agent API loop (start → send → receive
 > → end) and renders the structured order-status Response as a card. Swap in your own Skill + styling to reskin.
 
+## HXL Mosaic side-by-side — "define once as a widget, render anywhere"
+
+The page shows the **same Agent-API data two ways**:
+
+- **Left — hand-built React card.** One surface, coded by hand (the classic per-surface build).
+- **Right — HXL Mosaic widget.** The same data rendered by a small **React Mosaic renderer**
+  (`src/mosaic/`) that interprets a **Mosaic widget JSON** — the *same shape* that deploys to the org
+  as a `UiWidgetBundle` (see `reference/hxl-widget-sample/`). The interactive `OrderAssistant` widget's
+  quick-pick buttons (`OR-1001…1005`) **re-drive the agent**; the response widget binds live data.
+
+This is the partner-buildable proof of the HXL thesis: **you declare the surface once as a widget and
+render it wherever you need it** — here, in your own React app, interactively, today.
+
+**How it's wired** (`src/mosaic/`):
+- `bind.js` — pure, unit-tested: `bindWidget(node, data)` resolves `{{order}}` / `{{status}}` /
+  `{{summary}}` / `{{recordUrl}}` tokens in the widget tree from the live Agent-API response;
+  `statusVariant(status)` picks the badge color. Run `npm test` (vitest).
+- `MosaicTile.jsx` — recursive renderer for the tiles our widgets use (mirrors the in-org LWC
+  `mosaicTile`, but interactive: buttons fire an `onAction` the App owns).
+- `src/widgets/*.web.json` — the bindable widget definitions.
+
+> 🚧 **Honest boundary.** This renderer is **partner-authored** — it is *not* the gated platform HXL
+> runtime, and `*.web.json` is a **bindable twin** of the deployed bundle (it adds `{{token}}` bindings
+> the strict server schema forbids). We demonstrate the *thesis* (render-from-one-definition), not the
+> platform auto-render.
+
 ## How it works
 
 The Agent API is a REST API (no bundled UI):
@@ -87,6 +113,9 @@ cp .env.example .env      # then set:
 #   VITE_CLIENT_ID=<CONSUMER_KEY>
 #   VITE_ACCESS_TOKEN=<access_token from step 4>
 #   SF_CLIENT_SECRET=<CONSUMER_SECRET>
+#   VITE_HXL_VIEWER_URL=/lightning/n/HXL_Widget_Viewer   # OPTIONAL — only if the in-org
+#     HXL Widget Viewer is deployed (scripts/08-deploy-hxl-widget-viewer.sh). Empty → the
+#     HXL panel's "Open HXL Widget Viewer" footer link is hidden.
 ```
 
 ### 6. Run — TWO terminals (both from `web/`)
@@ -113,8 +142,12 @@ agent access; `400 "Invalid user ID"` → `bypassUser` (handled in `src/agentApi
 
 - `proxy.mjs` — dependency-free backend proxy; holds the token, forwards to the Agent API, handles CORS.
 - `src/agentApi.js` — the Agent API helper (start/send/receive/end); calls the proxy, sends no token.
-- `src/App.jsx` — a single component: input → send → render the order-status card.
+- `src/App.jsx` — the page: a formal top ask panel over two clearly-divided render panels — the hand-built
+  React card (left) and the HXL Mosaic render (right, with an in-org HXL Widget Viewer link).
+- `src/mosaic/` — the render-anywhere kit: `bind.js` (pure token binding, unit-tested), `MosaicTile.jsx`
+  (recursive renderer), `theme.js` (shared palette/font).
+- `src/widgets/*.web.json` — the bindable widget definitions (twins of the deployed `UiWidgetBundle`s).
 - `vite.config.js` / `index.html` / `src/main.jsx` — standard Vite React scaffolding.
 
-⚠️ **Auth/licensing** for the Agent API in a partner app requires confirmation against your Salesforce edition/licensing
-before production use.
+⚠️ **Auth/licensing + Flex-credit cost** for the Agent API in a partner app is a workshop budget item — confirm from the
+Headless 360 Success Guide with your Salesforce contact.

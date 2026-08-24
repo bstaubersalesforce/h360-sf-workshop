@@ -12,10 +12,10 @@ docs/H360-Workshop-Org_Test.rtf
 **/.env
 **/.env.local
 !**/.env.example
-!**/.env.local.example
 
-# node deps for the web sample
+# node deps + Vite build output for the web sample
 web/node_modules/
+web/dist/
 
 # Salesforce CLI local state/cache — never commit
 **/.sf/
@@ -26,3 +26,13 @@ web/node_modules/
 sfdx/force-app/main/default/uiBundles/**/node_modules/
 sfdx/force-app/main/default/uiBundles/**/dist/
 sfdx/force-app/main/default/uiBundles/**/build/
+
+# UIBundle generated artifacts — GraphQL codegen output + TS build info (regenerated locally)
+sfdx/force-app/main/default/uiBundles/**/tsconfig.tsbuildinfo
+sfdx/force-app/main/default/uiBundles/**/src/api/graphql-operations-types.ts
+# GraphQL schema dump from `npm run graphql:schema` (247k lines, regenerated on demand)
+sfdx/schema.graphql
+
+# proxy runtime log (may reference tokens in errors)
+web/.proxy.log
+web/.vite.log
