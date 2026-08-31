@@ -60,7 +60,7 @@ object; the Request/Response contract stays the same.
 - **CHECK** "Issue JWT-based access tokens for named users" (else `INVALID_JWT_FORMAT`).
 - 🔴 **Launch Claude Code from the project directory** — the h360 MCP servers are project-scoped in `~/.claude.json`;
   from a parent dir `/mcp` shows no server.
-- Helper: `./scripts/04-mcp-connect-setup.sh --org <alias>` prints an exact-values ECA card; `--verify` confirms.
+- Helper: `./scripts/connect-mcp.sh --org <alias>` prints an exact-values ECA card; `--verify` confirms.
 - **Test:** in Claude, `read order OR-1003 from Salesforce` → real data, running as the signed-in user (FLS/sharing enforced).
 
 ---

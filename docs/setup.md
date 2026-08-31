@@ -106,10 +106,10 @@ cd h360-sf-workshop
 sf org login web --alias myorg
 ```
 ```bash
-./scripts/06-org-onboard.sh --org myorg
+./scripts/onboard.sh --org myorg
 ```
 
-`06-org-onboard.sh` runs the scriptable half in order and is safe to re-run: guards Agentforce-on → deploys the reference build (`02`) + publishes/activates the agent → assigns the permset (`03`) → seeds the 5 hero orders incl. **OR-1003** (`05`) → deploys the in-org React app (`07`) → smoke-tests.
+`onboard.sh` runs the scriptable half in order and is safe to re-run: guards Agentforce-on → deploys the reference build (`steps/deploy`) + publishes/activates the agent → assigns the permset (`steps/assign-perms`) → seeds the 5 hero orders incl. **OR-1003** (`steps/seed-hero-data`) → smoke-tests. (The in-org React app is **not** part of onboarding — you deploy it hands-on in [Module 4](./modules/04-custom-ui.md).)
 
 > A `WARN: permset assign failed` line on a re-run just means it's already assigned — non-fatal; the final "onboarded" line confirms success.
 
@@ -148,9 +148,9 @@ sf org assign permset --name Headless360_Workshop_Access --target-org myorg
 Seed the 5 hero orders with the PowerShell port of the seeder:
 
 ```
-.\scripts\05-seed-hero-data.ps1 -Org myorg
+.\scripts\steps\seed-hero-data.ps1 -Org myorg
 ```
 
 Then verify in the browser: the Orders list view shows 5 rows and Agent Builder answers "status of order OR-1003".
 
-> The **in-org React app** (Module 4a, `07-deploy-react-bundle.sh`) needs an `npm` build and has no PowerShell port — run that one step in **Git Bash**, or skip it (it's a Module-4 surface, not core setup). Everything else above works in plain PowerShell. *(Exact command names may drift — confirm against `scripts/` if one errors.)*
+> The **in-org React app** (Module 4a, `deploy-react-app.sh`) needs an `npm` build and has no PowerShell port — run that one step in **Git Bash**, or skip it (it's a Module-4 surface, not core setup). Everything else above works in plain PowerShell. *(Exact command names may drift — confirm against `scripts/` if one errors.)*

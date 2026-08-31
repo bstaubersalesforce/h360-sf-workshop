@@ -18,7 +18,7 @@ The thesis, made literal by the flow: **build the capability once, reach it from
 ### Phase 1 · Educate — build the shared language *(joint)*
 | Module | Goal | ~Time | Done when |
 |---|---|---|---|
-| [0 — Prereqs & Comprehend](./docs/modules/00-prereqs-and-comprehend.md) | Org reachable, tooling installed, repo cloned | 15 min | `00-preflight.sh` passes |
+| [0 — Prereqs & Comprehend](./docs/modules/00-prereqs-and-comprehend.md) | Org reachable, tooling installed, repo cloned | 15 min | `preflight.sh` passes |
 | [1 — Educate: the mental model](./docs/modules/01-educate.md) | Shared language before you build | 45–60 min | You've mapped 2–3 of your workflows to a tier |
 
 ### Phase 2 · Reference Build — prove the pattern *(guided, on pre-provisioned orgs)*

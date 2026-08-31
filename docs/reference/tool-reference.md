@@ -1,6 +1,6 @@
 # Tool reference — install once, verify before the lab
 
-Every tool the lab uses, in one place. Install steps live in [setup.md](../setup.md); this is the reference table + the MCP Workbench install note. `00-preflight.sh` checks `sf` + org reachability; verify the rest yourself.
+Every tool the lab uses, in one place. Install steps live in [setup.md](../setup.md); this is the reference table + the MCP Workbench install note. `preflight.sh` checks `sf` + org reachability; verify the rest yourself.
 
 macOS "easy buttons" (Homebrew / npm) below; the link is the cross-platform fallback. **Install Node first** — the `npm -g` installs depend on it. 🪟 Windows: run these in **Git Bash** (see [setup.md](../setup.md#choose-your-terminal)).
 

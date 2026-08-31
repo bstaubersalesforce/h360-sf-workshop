@@ -47,12 +47,12 @@ sf org create scratch --definition-file sfdx/config/project-scratch-def.json \
 ```
 
 **What a standard scratch org validates (tested 2026-08-24, Developer edition, no add-on features):**
-- ✅ The **base capability** — Apex (`OrderStatusSkill`, `SendSlackCardAction`), `Order__c` + tab, `lightningTypes`, LWC, named credentials (17/19 components of the `02-deploy` base set).
-- ✅ The **HXL Widget Viewer** package (`hxl-viewer/` — Apex + LWCs + FlexiPage + Tab + App + permset) deploys clean via `./scripts/08-deploy-hxl-widget-viewer.sh`.
+- ✅ The **base capability** — Apex (`OrderStatusSkill`, `SendSlackCardAction`), `Order__c` + tab, `lightningTypes`, LWC, named credentials (17/19 components of the `steps/deploy` base set).
+- ✅ The **HXL Widget Viewer** package (`hxl-viewer/` — Apex + LWCs + FlexiPage + Tab + App + permset) deploys clean via `./scripts/deploy-hxl-viewer.sh`.
 - ✅ Good for local Apex/LWC/React dev and for a cold-start sanity check of the base deploy ordering.
 
 **What a standard scratch org can NOT host — you need the OrgFarm template org:**
-- ❌ **The Agentforce agent** — `AiAuthoringBundle` fails with *"Not available for deploy for this organization,"* so `02-deploy`'s agent-publish step (Module 2) can't run.
+- ❌ **The Agentforce agent** — `AiAuthoringBundle` fails with *"Not available for deploy for this organization,"* so `steps/deploy`'s agent-publish step (Module 2) can't run.
 - ❌ **HXL widgets** — `UiWidgetBundle` fails the same way, so the Module 4c reference-widget deploy (`--metadata-dir reference/hxl-widget-sample`) won't land.
 
 Both are gated features that aren't exposed as scratch-definition `features`; enabling them requires an org

@@ -57,7 +57,7 @@ is the **[tool reference](./docs/reference/tool-reference.md)**.
    ```bash
    git clone https://github.com/bstaubersalesforce/h360-sf-workshop.git
    cd h360-sf-workshop
-   ./scripts/06-org-onboard.sh --org <your-alias>    # deploy + publish agent + permset + seed hero data
+   ./scripts/onboard.sh --org <your-alias>    # deploy + publish agent + permset + seed hero data
    ./scripts/smoke.sh --org <your-alias>             # confirm you're build-ready
    ```
 3. Follow **[OVERVIEW.md](./OVERVIEW.md)** module by module — this repo is your authoritative guide.
@@ -86,7 +86,7 @@ All modules are documented in **[the module pages](./docs/modules/)** with 🔴 
   (queries `Order__c`), the Employee Agent as an **Agent Script bundle** (deploy/publish, not UI-authored), the Slack
   custom action + Custom External Credential wiring, the `LightningTypeBundle` CLT, permission set.
 - **`web/`** — a runnable React Agent-API sample client (`node proxy.mjs` backend proxy holds the token + `npm run dev`).
-- **`scripts/`** — `06-org-onboard.sh` (one-command per-org onboarder) + `smoke.sh` (readiness check); the `00`–`05` bootstrap steps it wraps (preflight/deploy/assign/`05-seed-hero-data.sh`), the `04-mcp-connect-setup.sh` Connect helper, + `check.sh` validation harness.
+- **`scripts/`** — `onboard.sh` (one-command per-org onboarder) + `smoke.sh` (readiness check); the `00`–`05` bootstrap steps it wraps (preflight/deploy/assign/`steps/seed-hero-data.sh`), the `connect-mcp.sh` Connect helper, + `check.sh` validation harness.
 - **`config/kit.json`** — mode + partner overlay + surface toggles.
 
 ## Resources (pre-reading)
